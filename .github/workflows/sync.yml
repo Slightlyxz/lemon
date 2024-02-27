@@ -3,7 +3,7 @@ name: Sync Vencord
 # This runs every hour
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/5 * * * *'
   # Allows manual workflow run (must in default branch to work)
   workflow_dispatch:
 
