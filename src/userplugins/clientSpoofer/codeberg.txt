@@ -1,0 +1,1 @@
+https://codeberg.org/Lunaa/vencord/src/branch/clientSpoofer/src/plugins/clientSpoofer.ts
