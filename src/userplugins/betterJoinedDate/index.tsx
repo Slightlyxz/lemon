@@ -28,7 +28,7 @@ export default definePlugin({
         let tooltipText = joinedDate.toLocaleString();
         if (daysAgo === 0) tooltipText += " (Today)";
         else if (daysAgo === 1) tooltipText += " (Yesterday)";
-        else tooltipText += ` (${daysAgo} days ago)`;
+        else tooltipText += `\n(${daysAgo} days ago)`;
         return (<Tooltip text={tooltipText}>
             {({ onMouseEnter, onMouseLeave }) => (
                 <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
