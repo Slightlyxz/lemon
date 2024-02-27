@@ -1,0 +1,23 @@
+name: Sync Vencord
+
+# This runs every hour
+on:
+  schedule:
+    - cron: '0 * * * *'
+  # Allows manual workflow run (must in default branch to work)
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Fork
+        uses: TobKed/github-forks-sync-action@master
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          upstream_repository: Vendicated/Vencord
+          target_repository: Slightlyxz/lemon
+          upstream_branch: main
+          target_branch: main
+          force: false
+          tags: false
