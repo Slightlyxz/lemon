@@ -49,6 +49,6 @@ jobs:
           branch_prefix: ${{ env.BRANCH_PREFIX }} 
 
       - name: Update Submodules
-          run: git submodule update --init --recursive
+        run: git submodule update --init --recursive
 
 
