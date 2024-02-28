@@ -10,3 +10,6 @@
 [submodule "src/userplugins/Kyuuhachi-userplugins"]
 	path = src/userplugins/Kyuuhachi-userplugins
 	url = https://github.com/Kyuuhachi/VencordPlugins
+[submodule "src/userplugins/vc-gif-collections"]
+	path = src/userplugins/vc-gif-collections
+	url = https://github.com/Syncxv/vc-gif-collections
