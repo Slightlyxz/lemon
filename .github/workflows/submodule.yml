@@ -1,0 +1,19 @@
+---
+name: Submodule Updates
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+
+jobs:
+  build:
+    name: Submodule update
+    runs-on: ubuntu-latest
+    steps:
+      - name: run action
+        id: run_action
+        uses: PaulRitter/github-action-create-commit-parent-submodule@v1
+        with:
+          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          parent_repository: Slightlyxz/lemon
+          parent_branch: main
