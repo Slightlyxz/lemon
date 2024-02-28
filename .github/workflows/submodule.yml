@@ -3,7 +3,9 @@ name: Submodule Updates
 
 on:
   schedule:
-    - cron: "0 */2 * * *"
+    - cron: '0 * * * *'
+  # Allows manual workflow run (must in default branch to work)
+  workflow_dispatch:
 
 jobs:
   build:
