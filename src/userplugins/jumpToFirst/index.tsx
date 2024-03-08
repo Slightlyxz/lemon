@@ -28,8 +28,9 @@ export default definePlugin({
             children.push(
                 <Menu.MenuItem
                     id="vc-jump-to-first"
-                    label="Jump to First Message"
+                    label="Go To First Message"
                     action={() => jumpToFirst(channel)}
+                    icon={JumpIcon}
                 />
             );
         }
@@ -37,7 +38,13 @@ export default definePlugin({
     }
 });
 
-
+function JumpIcon() {
+    return (
+        <svg width="18" height="18" viewBox="0 0 24 24" transform="matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,0,0)">
+            <path fill="currentColor" d="M5.3 9.3a1 1 0 0 1 1.4 0l5.3 5.29 5.3-5.3a1 1 0 1 1 1.4 1.42l-6 6a1 1 0 0 1-1.4 0l-6-6a1 1 0 0 1 0-1.42Z" />
+        </svg>
+    );
+}
 
 function jumpToFirst(props) {
     const messageId = "0"; // Set messageId to 0
