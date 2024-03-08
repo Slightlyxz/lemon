@@ -16,7 +16,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   BypassDND ([by Inbestigator](https://github.com/Vendicated/Vencord/pull/2239))
 -   FriendsSince ([by EdVraz](https://github.com/Vendicated/Vencord/pull/2240))
 -   iRememberYou ([by zoodogood](https://github.com/zoodogood/vencord-plugins))
--   jumpToFirst ([by cheesesamwich](https://github.com/Vendicated/Vencord/pull/2171)
+-   jumpToFirst ([by cheesesamwich](https://github.com/Vendicated/Vencord/pull/2171))
 -   purgeMessages ([by bhop](https://github.com/vawnair))
 -   replaceActivityTypes ([by Nyako](https://github.com/nyakowint/replaceActivityTypes))
 -   vc-gif-collections ([by Syncxv](https://github.com/Syncxv/vc-gif-collections))
