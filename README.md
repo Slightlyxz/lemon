@@ -6,7 +6,6 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 
 -   Soundboard Logger ([by ImpishMoxxie](https://github.com/ImpishMoxxie/SoundBoardLogger))
 -   Timezones ([by mantikafask](https://github.com/Vendicated/Vencord/pull/376))
--   betterJoinedDate ([by AutumnVN](https://github.com/Vendicated/Vencord/pull/1671))
 -   betterPinDMs ([by Syncxv](https://github.com/Syncxv/betterPinDMs))
 -   clientSpoofer ([by ImLvna](https://codeberg.org/Lunaa/vencord/src/branch/clientSpoofer))
 -   copyProfileThemes ([by KannaDev](https://github.com/Vendicated/Vencord/pull/1452))
