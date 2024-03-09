@@ -2,20 +2,20 @@
 name: Submodule Updates
 
 on:
-  schedule:
-    - cron: '0 */2 * * *'
-  # Allows manual workflow run (must in default branch to work)
-  workflow_dispatch:
+    schedule:
+        - cron: "0 */2 * * *"
+    # Allows manual workflow run (must in default branch to work)
+    workflow_dispatch:
 
 jobs:
-  build:
-    name: Submodule update
-    runs-on: ubuntu-latest
-    steps:
-      - name: run action
-        id: run_action
-        uses: PaulRitter/github-action-create-commit-parent-submodule@v2.0
-        with:
-          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
-          parent_repository: Slightlyxz/lemon
-          parent_branch: main
+    build:
+        name: Submodule update
+        runs-on: ubuntu-latest
+        steps:
+            - name: run action
+              id: run_action
+              uses: Slightlyxz/submodule-update@main
+              with:
+                  github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
+                  parent_repository: Slightlyxz/lemon
+                  parent_branch: main

@@ -1,15 +1,15 @@
-[submodule "src/userplugins/vc-message-logger-enhanced"]
+[submodule "vc-message-logger-enhanced"]
 	path = src/userplugins/vc-message-logger-enhanced
 	url = https://github.com/Syncxv/vc-message-logger-enhanced
-[submodule "src/userplugins/betterPinDMs"]
+[submodule "betterPinDMs"]
 	path = src/userplugins/betterPinDMs
 	url = https://github.com/Syncxv/betterPinDMs
-[submodule "src/userplugins/D3SOX-userplugins"]
+[submodule "D3SOX-userplugins"]
 	path = src/userplugins/D3SOX-userplugins
 	url = https://github.com/D3SOX/vencord-userplugins
-[submodule "src/userplugins/Kyuuhachi-userplugins"]
+[submodule "Kyuuhachi-userplugins"]
 	path = src/userplugins/Kyuuhachi-userplugins
 	url = https://github.com/Kyuuhachi/VencordPlugins
-[submodule "src/userplugins/vc-gif-collections"]
+[submodule "vc-gif-collections"]
 	path = src/userplugins/vc-gif-collections
 	url = https://github.com/Syncxv/vc-gif-collections
