@@ -17,7 +17,6 @@
 */
 
 import { sendBotMessage } from "@api/Commands";
-import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { ImageIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
@@ -44,36 +43,28 @@ function getProfileColors(id: string, guildId?: string) {
     return themeString.trim();
 }
 
-
-const UserContext: NavContextMenuPatchCallback = (children, { user, guildId, channel }: { user: User, guildId: string; channel: Channel; }) => () => {
-    const profileColors = getProfileColors(user.id, guildId);
-    if (profileColors)
-        children.splice(-1, 0, (
-            <Menu.MenuGroup>
-                <Menu.MenuItem
-                    id="copy-profile-theme"
-                    label="Copy Profile Theme"
-                    action={() => {
-                        sendBotMessage(channel.id, {
-                            content: profileColors
-                        });
-                    }}
-                    icon={ImageIcon}
-                />
-            </Menu.MenuGroup>
-        ));
-};
-
 export default definePlugin({
     name: "CopyProfileThemes",
     authors: [Devs.KannaDev, Devs.KannaDev],
     description: "Adds a 'Copy Profile Theme' option to the user context menu to copy the hex codes from a user's profile theme",
-
-    start() {
-        addContextMenuPatch("user-context", UserContext);
-    },
-
-    stop() {
-        removeContextMenuPatch("user-context", UserContext);
+    contextMenus: {
+        "user-context"(children, { user, guildId, channel }: { user: User, guildId: string; channel: Channel; }) {
+            const profileColors = getProfileColors(user.id, guildId);
+            if (profileColors)
+                children.splice(-1, 0, (
+                    <Menu.MenuGroup>
+                        <Menu.MenuItem
+                            id="copy-profile-theme"
+                            label="Copy Profile Theme"
+                            action={() => {
+                                sendBotMessage(channel.id, {
+                                    content: profileColors
+                                });
+                            }}
+                            icon={ImageIcon}
+                        />
+                    </Menu.MenuGroup>
+                ));
+        }
     }
 });
