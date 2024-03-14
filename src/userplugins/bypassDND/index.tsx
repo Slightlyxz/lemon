@@ -9,6 +9,7 @@ import { Notifications } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
+import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { ChannelStore, Menu, MessageStore, NavigationRouter, PresenceStore, PrivateChannelsStore, UserStore, WindowStore } from "@webpack/common";
 import { type Message } from "discord-types/general";
@@ -19,7 +20,7 @@ interface IMessageCreate {
     message: Message;
 }
 
-function icon(enabled?: boolean) {
+function Icon(enabled?: boolean): JSX.Element {
     return <svg
         width="18"
         height="18"
@@ -29,16 +30,28 @@ function icon(enabled?: boolean) {
     </svg>;
 }
 
-function processIds(value) {
+function processIds(value: string): string {
     return value.replace(/\s/g, "").split(",").filter(id => id.trim() !== "").join(", ");
 }
 
-async function showNotification(message: Message, guildId?: string): Promise<void> {
+async function showNotification(message: Message, guildId: string | undefined): Promise<void> {
+    const channel = ChannelStore.getChannel(message.channel_id);
+    const channelRegex = /<#(\d{19})>/g;
+    const userRegex = /<@(\d{18})>/g;
+
+    message.content = message.content.replace(channelRegex, (match, channelId: string) => {
+        return `#${ChannelStore.getChannel(channelId)?.name}`;
+    });
+
+    message.content = message.content.replace(userRegex, (match, userId: string) => {
+        return `@${UserStore.getUser(userId)?.globalName}`;
+    });
+
     await Notifications.showNotification({
-        title: `${message.author.globalName ?? message.author.username} ${guildId ? `sent a message in ${ChannelStore.getChannel(message.channel_id)?.name}` : "sent a message in a DM"}`,
+        title: `${message.author.globalName} ${guildId ? `(#${channel?.name}, ${ChannelStore.getChannel(channel?.parent_id)?.name})` : ""}`,
         body: message.content,
         icon: UserStore.getUser(message.author.id).getAvatarURL(undefined, undefined, false),
-        onClick: function () {
+        onClick: function (): void {
             NavigationRouter.transitionTo(`/channels/${guildId ?? "@me"}/${message.channel_id}/${message.id}`);
         }
     });
@@ -55,7 +68,7 @@ function ContextCallback(name: "guild" | "user" | "channel"): NavContextMenuPatc
                 <Menu.MenuItem
                     id={`dnd-${name}-bypass`}
                     label={`${enabled ? "Remove" : "Add"} DND Bypass`}
-                    icon={() => icon(enabled)}
+                    icon={() => Icon(enabled)}
                     action={() => {
                         let bypasses: string[] = settings.store[`${name}s`].split(", ");
                         if (enabled) bypasses = bypasses.filter(id => id !== type.id);
@@ -101,11 +114,12 @@ export default definePlugin({
     description: "Still get notifications from specific sources when in do not disturb mode. Right-click on users/channels/guilds to set them to bypass do not disturb mode.",
     authors: [Devs.Inbestigator],
     flux: {
-        async MESSAGE_CREATE({ message, guildId, channelId }: IMessageCreate) {
+        async MESSAGE_CREATE({ message, guildId, channelId }: IMessageCreate): Promise<void> {
             try {
                 const currentUser = UserStore.getCurrentUser();
                 const userStatus = await PresenceStore.getStatus(currentUser.id);
-                if (message.state === "SENDING" || message.content === "" || message.author.id === currentUser.id || (channelId === getCurrentChannel().id && WindowStore.isFocused()) || userStatus !== "dnd") {
+                const currentChannelId = getCurrentChannel()?.id ?? "0";
+                if (message.state === "SENDING" || message.content === "" || message.author.id === currentUser.id || (channelId === currentChannelId && WindowStore.isFocused()) || userStatus !== "dnd") {
                     return;
                 }
                 const mentioned = MessageStore.getMessage(channelId, message.id)?.mentioned;
@@ -118,7 +132,7 @@ export default definePlugin({
                     }
                 }
             } catch (error) {
-                console.error(error);
+                new Logger("BypassDND").error("Failed to handle message", error);
             }
         }
     },
