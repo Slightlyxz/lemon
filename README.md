@@ -13,7 +13,6 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   customSounds ([by TheKodeToad](https://github.com/Vendicated/Vencord/pull/1765))
 -   discordColorways ([by DaBluLite](https://github.com/Vendicated/Vencord/pull/1448))
 -   BypassDND ([by Inbestigator](https://github.com/Vendicated/Vencord/pull/2239))
--   FriendsSince ([by EdVraz](https://github.com/Vendicated/Vencord/pull/2240))
 -   iRememberYou ([by zoodogood](https://github.com/zoodogood/vencord-plugins))
 -   jumpToFirst ([by cheesesamwich](https://github.com/Vendicated/Vencord/pull/2171))
 -   purgeMessages ([by bhop](https://github.com/vawnair))
@@ -21,6 +20,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   vc-gif-collections ([by Syncxv](https://github.com/Syncxv/vc-gif-collections))
 -   vc-message-logger-enhanced ([by Syncxv](https://github.com/Syncxv/vc-message-logger-enhanced))
 -   watchTogetherAdblock ([by ImLvna](https://github.com/Vendicated/Vencord/pull/2021))
+-   Sekaistickers ([by maikokain](https://github.com/maikokain/sekaistickers-vencord))
 -   [D3SOX's plugins](https://github.com/D3SOX/vencord-userplugins)
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 
