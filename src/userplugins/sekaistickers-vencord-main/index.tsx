@@ -12,12 +12,24 @@ import definePlugin, { OptionType } from "@utils/types";
 
 import SekaiStickersModal from "./Components/SekaiStickersModal";
 import { kanadeSvg } from "./kanade.svg";
+import { checkUpdate, updateButton } from "./utils/versionCheck";
 
 const settings = definePluginSettings({
     AutoCloseModal: {
         type: OptionType.BOOLEAN,
         description: "Auto close modal when done",
         default: true
+    },
+    checkForUpdateOnStartUp: {
+        type: OptionType.BOOLEAN,
+        description: "Auto check for update on start up",
+        default: true,
+        placeholder: "Check update on start up"
+    },
+    checkForUpdate: {
+        type: OptionType.COMPONENT,
+        description: "Check for update",
+        component: updateButton
     }
 });
 
@@ -34,7 +46,7 @@ export default definePlugin({
     description: "Sekai Stickers built in discord originally from github.com/TheOriginalAyaka",
     authors: [Devs.MaiKokain],
     settings,
-    start: () => {
+    start: async () => {
         const fonts = [{ name: "YurukaStd", url: "https://raw.githubusercontent.com/TheOriginalAyaka/sekai-stickers/main/src/fonts/YurukaStd.woff2" }, { name: "SSFangTangTi", url: "https://raw.githubusercontent.com/TheOriginalAyaka/sekai-stickers/main/src/fonts/ShangShouFangTangTi.woff2" }];
         fonts.map(n => {
             new FontFace(n.name, `url(${n.url})`).load().then(
@@ -43,5 +55,6 @@ export default definePlugin({
             );
         });
         addChatBarButton("SekaiStickers", generateChatButton);
+        if (settings.store.checkForUpdateOnStartUp) await checkUpdate();
     },
 });
