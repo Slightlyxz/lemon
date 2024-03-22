@@ -9,7 +9,6 @@ import * as DataStore from "@api/DataStore";
 import { addAccessory, removeAccessory } from "@api/MessageAccessories";
 import { addServerListElement, removeServerListElement, ServerListRenderPosition } from "@api/ServerList";
 import { disableStyle, enableStyle } from "@api/Styles";
-import { SwatchIcon } from "./components/Icons";
 import { Devs } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
 import { openModal } from "@utils/modal";
@@ -27,6 +26,7 @@ import {
 import { ColorPickerModal } from "./components/colorPicker";
 import ColorwaysButton from "./components/colorwaysButton";
 import CreatorModal from "./components/creatorModal";
+import { SwatchIcon } from "./components/Icons";
 import Selector from "./components/selector";
 import { SettingsPage } from "./components/settingsPage";
 import Spinner from "./components/spinner";

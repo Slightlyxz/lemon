@@ -5,7 +5,8 @@
  */
 
 import * as DataStore from "@api/DataStore";
-import { Devs, VENCORD_USER_AGENT } from "@utils/constants";
+import { VENCORD_USER_AGENT_HASHLESS } from "@shared/vencordUserAgent";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { React, SearchableSelect, Text, Toasts, UserStore } from "@webpack/common";
@@ -43,7 +44,7 @@ export default definePlugin({
     ],
 
     settingsAboutComponent: () => {
-        const href = `${API_URL}?client_mod=${encodeURIComponent(VENCORD_USER_AGENT)}`;
+        const href = `${API_URL}?client_mod=${encodeURIComponent(VENCORD_USER_AGENT_HASHLESS)}`;
         return (
             <Text variant="text-md/normal">
                 A plugin that displays the local time for specific users using their timezone. <br />
@@ -233,13 +234,9 @@ export default definePlugin({
         if (!showTimezonesInChat || message.author.id === UserStore.getCurrentUser()?.id)
             return null;
 
-        const messageTimezone = timezone && getTimeString(timezone, new Date(message.timestamp.valueOf()));
-        const showTimezone = timezone && messageTimezone !== timezone; // Check if different
-
         return (
             <span className={classes(styles.timestampInline, styles.timestamp)}>
-                {showTimezone && "(" + messageTimezone + ")"}
-            </span>
-        );
+                {timezone && "• " + getTimeString(timezone, new Date(message.timestamp.valueOf()))}
+            </span>);
     }
 });
