@@ -5,7 +5,7 @@
  */
 
 import { app } from "electron";
-import { getSettings } from "main/ipcMain";
+import { RendererSettings } from "main/settings";
 
 const entrypoint = () => {
     const LOGO_ID = "block-youtube-ads-logo";
@@ -259,9 +259,9 @@ app.on("browser-window-created", (_, win) => {
     win.webContents.on("frame-created", (_, { frame }) => {
         frame.once("dom-ready", () => {
             if (frame.url.match(/https:\/\/(www\.)?youtube\.com.+/gm)) {
-                const settings = getSettings().plugins?.WatchTogetherAdblock;
+                const settings = RendererSettings.store.plugins?.WatchTogetherAdblock;
                 if (!settings?.enabled) return;
-                
+
                 frame.executeJavaScript(`(${entrypoint.toString()})();`);
             }
         });
