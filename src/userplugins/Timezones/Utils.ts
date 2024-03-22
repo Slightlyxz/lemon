@@ -6,7 +6,7 @@
 
 import * as DataStore from "@api/DataStore";
 import { debounce } from "@shared/debounce";
-import { VENCORD_USER_AGENT_HASHLESS } from "@shared/vencordUserAgent";
+import { VENCORD_USER_AGENT } from "@shared/vencordUserAgent";
 import { findStoreLazy } from "@webpack";
 export const DATASTORE_KEY = "plugins.Timezones.savedTimezones";
 
@@ -41,7 +41,7 @@ async function bulkFetchTimezones(ids: string[]): Promise<TimezoneDB | undefined
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-User-Agent": VENCORD_USER_AGENT_HASHLESS
+                "X-User-Agent": VENCORD_USER_AGENT
             },
             body: JSON.stringify(ids),
         });
