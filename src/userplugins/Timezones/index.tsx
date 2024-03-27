@@ -15,7 +15,6 @@ import { Message, User } from "discord-types/general";
 import settings from "./settings";
 const classNames = findByPropsLazy("customStatusSection");
 
-
 import { CogWheel, DeleteIcon } from "@components/Icons";
 import { makeLazy } from "@utils/lazy";
 import { classes } from "@utils/misc";
@@ -57,7 +56,6 @@ export default definePlugin({
         {
             find: "copyMetaData:\"User Tag\"",
             replacement: {
-
                 match: /return(\(0,.\.jsx\)\(.\.default,{className:.+?}\)]}\)}\))/,
                 replace: "return [$1, $self.getProfileTimezonesComponent(arguments[0])]"
             },
@@ -224,19 +222,31 @@ export default definePlugin({
     getTimezonesComponent: ({ message }: { message: Message; }) => {
         const { showTimezonesInChat, preference } = settings.use(["preference", "showTimezonesInChat"]);
         const [timezone, setTimezone] = React.useState<string | undefined>();
+        const [userTimezone, setUserTimezone] = React.useState<string | undefined>();
 
         React.useEffect(() => {
             if (!showTimezonesInChat) return;
 
             getUserTimezone(message.author.id, preference).then(tz => setTimezone(tz));
+            getUserTimezone(UserStore.getCurrentUser()?.id || "", preference).then(tz => setUserTimezone(tz));
         }, [showTimezonesInChat, preference]);
 
         if (!showTimezonesInChat || message.author.id === UserStore.getCurrentUser()?.id)
             return null;
 
-        return (
-            <span className={classes(styles.timestampInline, styles.timestamp)}>
-                {timezone && "• " + getTimeString(timezone, new Date(message.timestamp.valueOf()))}
-            </span>);
+        if (timezone && userTimezone) {
+            const otherTime = getTimeString(timezone, new Date(message.timestamp.valueOf()));
+            const userTime = getTimeString(userTimezone, new Date(message.timestamp.valueOf()));
+
+            if (otherTime !== userTime) {
+                return (
+                    <span className={classes(styles.timestampInline, styles.timestamp)}>
+                        {`(${otherTime})`}
+                    </span>
+                );
+            }
+        }
+
+        return null;
     }
 });
