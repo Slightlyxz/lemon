@@ -15,7 +15,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   BypassDND ([by Inbestigator](https://github.com/Vendicated/Vencord/pull/2239))
 -   iRememberYou ([by zoodogood](https://github.com/zoodogood/vencord-plugins))
 -   jumpToFirst ([by cheesesamwich](https://github.com/Vendicated/Vencord/pull/2171))
--   purgeMessages ([by bhop](https://github.com/vawnair))
+-   BetterQuests ([by kvbaxi](https://github.com/Vendicated/Vencord/pull/2364))
 -   replaceActivityTypes ([by Nyako](https://github.com/nyakowint/replaceActivityTypes))
 -   vc-gif-collections ([by Syncxv](https://github.com/Syncxv/vc-gif-collections))
 -   vc-message-logger-enhanced ([by Syncxv](https://github.com/Syncxv/vc-message-logger-enhanced))
