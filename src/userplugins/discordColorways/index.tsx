@@ -4,38 +4,29 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import * as DataStore from "@api/DataStore";
 import { addAccessory, removeAccessory } from "@api/MessageAccessories";
 import { addServerListElement, removeServerListElement, ServerListRenderPosition } from "@api/ServerList";
 import { disableStyle, enableStyle } from "@api/Styles";
 import { Devs } from "@utils/constants";
-import { sendMessage } from "@utils/discord";
 import { openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import {
     Button,
-    Flex,
-    Menu,
-    PermissionsBits,
-    PermissionStore,
-    SelectedChannelStore,
     SettingsRouter,
 } from "@webpack/common";
 
-import { ColorPickerModal } from "./components/colorPicker";
-import ColorwaysButton from "./components/colorwaysButton";
-import CreatorModal from "./components/creatorModal";
-import { SwatchIcon } from "./components/Icons";
-import Selector from "./components/selector";
-import { SettingsPage } from "./components/settingsPage";
-import Spinner from "./components/spinner";
+import ColorPickerModal from "./components/ColorPicker";
+import ColorwaysButton from "./components/ColorwaysButton";
+import CreatorModal from "./components/CreatorModal";
+import Selector from "./components/Selector";
+import ManageColorwaysPage from "./components/SettingsTabs/ManageColorwaysPage";
+import OnDemandWaysPage from "./components/SettingsTabs/OnDemandPage";
+import SettingsPage from "./components/SettingsTabs/SettingsPage";
+import Spinner from "./components/Spinner";
 import { defaultColorwaySource } from "./constants";
 import style from "./style.css?managed";
 import { ColorPickerProps } from "./types";
-import { getHex, stringToHex } from "./utils";
-
-export let LazySwatchLoaded = false;
 
 export let ColorPicker: React.FunctionComponent<ColorPickerProps> = () => {
     return <Spinner className="colorways-creator-module-warning" />;
@@ -46,7 +37,6 @@ export let ColorPicker: React.FunctionComponent<ColorPickerProps> = () => {
         customColorways,
         colorwaySourcesFiles,
         showColorwaysButton,
-        colorwaysBtnPos,
         onDemandWays,
         onDemandWaysTintedText,
         useThinMenuButton,
@@ -56,7 +46,6 @@ export let ColorPicker: React.FunctionComponent<ColorPickerProps> = () => {
         "customColorways",
         "colorwaySourceFiles",
         "showColorwaysButton",
-        "colorwaysBtnPos",
         "onDemandWays",
         "onDemandWaysTintedText",
         "useThinMenuButton",
@@ -72,9 +61,6 @@ export let ColorPicker: React.FunctionComponent<ColorPickerProps> = () => {
 
     if (!showColorwaysButton)
         DataStore.set("showColorwaysButton", false);
-
-    if (!colorwaysBtnPos)
-        DataStore.set("colorwaysBtnPos", "bottom");
 
     if (!onDemandWays)
         DataStore.set("onDemandWays", false);
@@ -107,45 +93,49 @@ export const ColorwayCSS = {
     remove: () => document.getElementById("activeColorwayCSS")!.remove(),
 };
 
-const ctxMenuPatch: NavContextMenuPatchCallback = (children, props) => () => {
-    if (props.channel.guild_id && !(PermissionStore.can(PermissionsBits.SEND_MESSAGES, props.channel))) return;
-    children.push(
-        <Menu.MenuItem
-            id="colorways-send-id"
-            label={<Flex flexDirection="row" style={{ alignItems: "center", gap: 8 }}>
-                <SwatchIcon width={16} height={16} style={{ scale: "0.8" }} />
-                Share Colorway via ID
-            </Flex>}
-            action={() => {
-                const colorwayIDArray = `#${getHex(getComputedStyle(document.body).getPropertyValue("--brand-experiment")).split("#")[1]},#${getHex(getComputedStyle(document.body).getPropertyValue("--background-primary")).split("#")[1]},#${getHex(getComputedStyle(document.body).getPropertyValue("--background-secondary")).split("#")[1]},#${getHex(getComputedStyle(document.body).getPropertyValue("--background-tertiary")).split("#")[1]}`;
-                const colorwayID = stringToHex(colorwayIDArray);
-                const channelId = SelectedChannelStore.getChannelId();
-                sendMessage(channelId, { content: `\`colorway:${colorwayID}\`` });
-            }}
-        />
-    );
+export const versionData = {
+    pluginVersion: "5.6.4.2",
+    creatorVersion: "1.18.3",
 };
 
 export default definePlugin({
     name: "DiscordColorways",
     description:
         "A plugin that offers easy access to simple color schemes/themes for Discord, also known as Colorways",
-    authors: [Devs.ImLvna],
+    authors: [{
+        name: "DaBluLite",
+        id: 582170007505731594n
+    }, Devs.ImLvna],
     dependencies: ["ServerListAPI", "MessageAccessoriesAPI"],
-    pluginVersion: "5.4.0",
-    creatorVersion: "1.18",
+    pluginVersion: versionData.pluginVersion,
+    creatorVersion: versionData.creatorVersion,
     toolboxActions: {
-        "Change Colorway": () => SettingsRouter.open("ColorwaysSettings"),
-        "Open Colorway Creator": () =>
-            openModal(props => (
-                <ColorPickerModal modalProps={props} />
-            )),
-        "Open Color Stealer": () =>
-            openModal(props => (
-                <ColorPickerModal modalProps={props} />
-            )),
+        "Change Colorway": () => openModal(props => <Selector modalProps={props} />),
+        "Open Colorway Creator": () => openModal(props => <CreatorModal modalProps={props} />),
+        "Open Color Stealer": () => openModal(props => <ColorPickerModal modalProps={props} />),
+        "Open Settings": () => SettingsRouter.open("ColorwaysSettings"),
+        "Open On-Demand Settings": () => SettingsRouter.open("ColorwaysOnDemand"),
+        "Manage Colorways...": () => SettingsRouter.open("ColorwaysManagement"),
     },
     patches: [
+        // Credits to Kyuuhachi for the BetterSettings plugin patches
+        {
+            find: "this.renderArtisanalHack()",
+            replacement: {
+                match: /createPromise:\(\)=>([^:}]*?),webpackId:"\d+",name:(?!="CollectiblesShop")"[^"]+"/g,
+                replace: "$&,_:$1",
+                predicate: () => true
+            }
+
+        },
+        {
+            find: "Messages.USER_SETTINGS_WITH_BUILD_OVERRIDE.format",
+            replacement: {
+                match: /(?<=(\i)\(this,"handleOpenSettingsContextMenu",.{0,100}?openContextMenuLazy.{0,100}?(await Promise\.all[^};]*?\)\)).*?,)(?=\1\(this)/,
+                replace: "(async ()=>$2)(),"
+            },
+            predicate: () => true
+        },
         {
             find: "colorPickerFooter:",
             replacement: {
@@ -161,24 +151,22 @@ export default definePlugin({
             }
         }
     ],
+
     set ColorPicker(e) {
         ColorPicker = e;
-        LazySwatchLoaded = true;
     },
-
-    customSections: [] as ((SectionTypes: Record<string, unknown>) => any)[],
 
     makeSettingsCategories(SectionTypes: Record<string, unknown>) {
         return [
             {
                 section: SectionTypes.HEADER,
-                label: "Discord Colorways",
+                label: "DiscordColorways",
                 className: "vc-settings-header"
             },
             {
                 section: "ColorwaysSelector",
-                label: "Colors",
-                element: Selector,
+                label: "Colorways",
+                element: () => <Selector isSettings modalProps={{ onClose: () => new Promise(() => true), transitionState: 1 }} />,
                 className: "dc-colorway-selector"
             },
             {
@@ -187,7 +175,18 @@ export default definePlugin({
                 element: SettingsPage,
                 className: "dc-colorway-settings"
             },
-            ...this.customSections.map(func => func(SectionTypes)),
+            {
+                section: "ColorwaysOnDemand",
+                label: "On-Demand",
+                element: OnDemandWaysPage,
+                className: "dc-colorway-ondemand"
+            },
+            {
+                section: "ColorwaysManagement",
+                label: "Manage...",
+                element: ManageColorwaysPage,
+                className: "dc-colorway-management"
+            },
             {
                 section: SectionTypes.DIVIDER
             }
@@ -202,26 +201,22 @@ export default definePlugin({
         enableStyle(style);
         ColorwayCSS.set((await DataStore.get("actveColorway")) || "");
 
-        addAccessory("colorways-btn", props => {
-            if (String(props.message.content).match(/colorway:[0-9a-f]{0,71}/))
-                return <Button onClick={() => {
-                    openModal(propss => (
-                        <CreatorModal
-                            modalProps={propss}
-                            colorwayID={String(props.message.content).match(/colorway:[0-9a-f]{0,71}/)![0]}
-                        />
-                    ));
-                }} size={Button.Sizes.SMALL}>Add this Colorway...</Button>;
-            return null;
-        });
-        addContextMenuPatch("channel-attach", ctxMenuPatch);
+        addAccessory("colorways-btn", props => String(props.message.content).match(/colorway:[0-9a-f]{0,100}/) ? <Button
+            onClick={() => openModal(modalProps => <CreatorModal
+                modalProps={modalProps}
+                colorwayID={String(props.message.content).match(/colorway:[0-9a-f]{0,100}/)![0]}
+            />)}
+            size={Button.Sizes.SMALL}
+            color={Button.Colors.PRIMARY}
+            look={Button.Looks.OUTLINED}
+        >
+            Add this Colorway...
+        </Button> : null);
     },
     stop() {
         removeServerListElement(ServerListRenderPosition.In, this.ColorwaysButton);
-
         disableStyle(style);
         ColorwayCSS.remove();
         removeAccessory("colorways-btn");
-        removeContextMenuPatch("channel-attach", ctxMenuPatch);
     },
 });

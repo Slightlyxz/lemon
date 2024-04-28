@@ -4,240 +4,88 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Flex } from "@components/Flex";
+import { CopyIcon } from "@components/Icons";
 import {
     ModalProps,
     ModalRoot,
 } from "@utils/modal";
-import { wreq } from "@webpack";
 import {
+    Button,
     Clipboard,
-    Forms,
     ScrollerThin,
     TextInput,
     Toasts,
-    useEffect,
     useState,
 } from "@webpack/common";
 
-import { LazySwatchLoaded } from "..";
+import { mainColors } from "../constants";
 import { colorVariables } from "../css";
+import { getHex } from "../utils";
 
-interface ToolboxItem {
-    title: string;
-    onClick: () => void;
-    id?: string;
-    iconClassName?: string;
-}
-
-const ColorVarItems: ToolboxItem[] = colorVariables.map((colorVariable: string) => {
-    return {
-        title: "Copy " + colorVariable,
-        onClick: () => {
-            function getHex(str: string): string { return Object.assign(document.createElement("canvas").getContext("2d") as {}, { fillStyle: str }).fillStyle; }
-            Clipboard.copy(getHex(getComputedStyle(document.body).getPropertyValue("--" + colorVariable)));
-            Toasts.show({ message: "Color " + colorVariable + " copied to clipboard", id: "toolbox-color-var-copied", type: 1 });
-        },
-        id: colorVariable
-    };
-});
-
-const ToolboxItems: ToolboxItem[] = [
-    {
-        title: "Copy Accent Color",
-        onClick: () => {
-            function getHex(str: string): string {
-                return Object.assign(
-                    document.createElement("canvas").getContext("2d") as {},
-                    { fillStyle: str }
-                ).fillStyle;
-            }
-            Clipboard.copy(
-                getHex(
-                    getComputedStyle(document.body).getPropertyValue(
-                        "--brand-experiment"
-                    )
-                )
-            );
-            Toasts.show({
-                message: "Accent color copied to clipboard",
-                id: "toolbox-accent-color-copied",
-                type: 1,
-            });
-        },
-        id: "colorways-toolbox_copy-accent",
-        iconClassName: "copy",
-    },
-    {
-        title: "Copy Primary Color",
-        onClick: () => {
-            function getHex(str: string): string {
-                return Object.assign(
-                    document.createElement("canvas").getContext("2d") as {},
-                    { fillStyle: str }
-                ).fillStyle;
-            }
-            Clipboard.copy(
-                getHex(
-                    getComputedStyle(document.body).getPropertyValue(
-                        "--background-primary"
-                    )
-                )
-            );
-            Toasts.show({
-                message: "Primary color copied to clipboard",
-                id: "toolbox-primary-color-copied",
-                type: 1,
-            });
-        },
-        id: "colorways-toolbox_copy-primary",
-        iconClassName: "copy",
-    },
-    {
-        title: "Copy Secondary Color",
-        onClick: () => {
-            function getHex(str: string): string {
-                return Object.assign(
-                    document.createElement("canvas").getContext("2d") as {},
-                    { fillStyle: str }
-                ).fillStyle;
-            }
-            Clipboard.copy(
-                getHex(
-                    getComputedStyle(document.body).getPropertyValue(
-                        "--background-secondary"
-                    )
-                )
-            );
-            Toasts.show({
-                message: "Secondary color copied to clipboard",
-                id: "toolbox-secondary-color-copied",
-                type: 1,
-            });
-        },
-        id: "colorways-toolbox_copy-secondary",
-        iconClassName: "copy",
-    },
-    {
-        title: "Copy Tertiary Color",
-        onClick: () => {
-            function getHex(str: string): string {
-                return Object.assign(
-                    document.createElement("canvas").getContext("2d") as {},
-                    { fillStyle: str }
-                ).fillStyle;
-            }
-            Clipboard.copy(
-                getHex(
-                    getComputedStyle(document.body).getPropertyValue(
-                        "--background-tertiary"
-                    )
-                )
-            );
-            Toasts.show({
-                message: "Tertiary color copied to clipboard",
-                id: "toolbox-tertiary-color-copied",
-                type: 1,
-            });
-        },
-        id: "colorways-toolbox_copy-tertiary",
-        iconClassName: "copy",
-    }
-];
-
-export function ColorPickerModal({ modalProps }: { modalProps: ModalProps; }) {
-    const [colorVarItems, setColorVarItems] = useState<ToolboxItem[]>(ColorVarItems);
-    const [collapsedSettings, setCollapsedSettings] = useState<boolean>(false);
-    let results: ToolboxItem[];
+export default function ({ modalProps }: { modalProps: ModalProps; }) {
+    const [ColorVars, setColorVars] = useState<string[]>(colorVariables);
+    const [collapsedSettings, setCollapsedSettings] = useState<boolean>(true);
+    let results: string[];
     function searchToolboxItems(e: string) {
         results = [];
-        ColorVarItems.find((ToolboxItem: ToolboxItem) => {
-            if (ToolboxItem.title.toLowerCase().includes(e.toLowerCase())) {
-                results.push(ToolboxItem);
+        colorVariables.find((colorVariable: string) => {
+            if (colorVariable.toLowerCase().includes(e.toLowerCase())) {
+                results.push(colorVariable);
             }
         });
-        setColorVarItems(results);
+        setColorVars(results);
     }
 
-    useEffect(() => {
-        if (!LazySwatchLoaded) {
-            wreq.e(409214);
-        }
-    });
-
-    return (
-        <ModalRoot {...modalProps} className="colorwayCreator-modal colorwayCreator-menuWrapper">
-            <div className="colorwayToolbox-list">
-                <TextInput
-                    placeholder="Search for a color:"
-                    onChange={searchToolboxItems}
-                ></TextInput>
-                <Forms.FormTitle>Main Colors:</Forms.FormTitle>
-                <div className="colorwayToolbox-itemList" style={{ justifyContent: "space-between" }}>
-                    {ToolboxItems.map(
-                        (
-                            toolboxItem: ToolboxItem,
-                            i: number
-                        ) => {
-                            return (
-                                <div
-                                    id={
-                                        toolboxItem.id ||
-                                        "colorways-toolbox_item-" +
-                                        i
-                                    }
-                                    className="colorwayToolbox-listItem"
-                                >
-                                    <i
-                                        onClick={
-                                            toolboxItem.onClick
-                                        }
-                                        className={
-                                            "bi bi-" +
-                                            (toolboxItem.iconClassName ||
-                                                "question-circle")
-                                        }
-                                    ></i>
-                                    <span className="colorwaysToolbox-label">
-                                        {toolboxItem.title}
-                                    </span>
-                                </div>
-                            );
-                        }
-                    )}
-                </div>
-                <div className={`colorwaysCreator-settingCat${collapsedSettings ? " colorwaysCreator-settingCat-collapsed" : ""}`}>
-                    <div
-                        className="colorwaysCreator-settingItm colorwaysCreator-settingHeader"
-                        onClick={() => setCollapsedSettings(!collapsedSettings)}>
-                        <Forms.FormTitle style={{ marginBottom: 0 }}>Other Colors:</Forms.FormTitle>
-                        <svg className="expand-3Nh1P5 transition-30IQBn directionDown-2w0MZz" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" role="img">
-                            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 10L12 15 17 10" aria-hidden="true" />
-                        </svg>
-                    </div>
-                    <ScrollerThin orientation="vertical" className="colorwaysCreator-settingsList" paddingFix>
-                        {colorVarItems.map((toolboxItem: ToolboxItem) => {
-                            return (
-                                <div
-                                    id={
-                                        "colorways-colorstealer-item_" +
-                                        toolboxItem.id
-                                    }
-                                    className="colorwaysCreator-settingItm colorwaysCreator-toolboxItm"
-                                    onClick={toolboxItem.onClick}
-                                    style={
-                                        {
-                                            "--brand-experiment":
-                                                "var(--" + toolboxItem.id + ")",
-                                        } as React.CSSProperties
-                                    }
-                                >
-                                    {toolboxItem.title}
-                                </div>
-                            );
-                        })}
-                    </ScrollerThin>
-                </div>
+    return <ModalRoot {...modalProps} className="colorwayColorpicker">
+        <Flex style={{ gap: "8px", marginBottom: "8px" }}>
+            <TextInput
+                className="colorwaysColorpicker-search"
+                placeholder="Search for a color:"
+                onChange={e => {
+                    searchToolboxItems(e);
+                    if (e) {
+                        setCollapsedSettings(false);
+                    } else {
+                        setCollapsedSettings(true);
+                    }
+                }}
+            />
+            <Button
+                innerClassName="colorwaysSettings-iconButtonInner"
+                size={Button.Sizes.ICON}
+                color={Button.Colors.PRIMARY}
+                look={Button.Looks.OUTLINED}
+                onClick={() => setCollapsedSettings(!collapsedSettings)}
+            >
+                <svg width="32" height="24" viewBox="0 0 24 24" aria-hidden="true" role="img">
+                    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 10L12 15 17 10" aria-hidden="true" />
+                </svg>
+            </Button>
+        </Flex>
+        <ScrollerThin style={{ color: "var(--text-normal)" }} orientation="vertical" className={collapsedSettings ? " colorwaysColorpicker-collapsed" : ""} paddingFix>
+            {ColorVars.map((colorVariable: string) => <div
+                id={`colorways-colorstealer-item_${colorVariable}`}
+                className="colorwaysCreator-settingItm colorwaysCreator-toolboxItm"
+                onClick={() => {
+                    Clipboard.copy(getHex(getComputedStyle(document.body).getPropertyValue("--" + colorVariable)));
+                    Toasts.show({ message: "Color " + colorVariable + " copied to clipboard", id: "toolbox-color-var-copied", type: 1 });
+                }} style={{ "--brand-experiment": `var(--${colorVariable})` } as React.CSSProperties}>
+                {`Copy ${colorVariable}`}
+            </div>)}
+        </ScrollerThin>
+        <Flex style={{ justifyContent: "space-between", marginTop: "8px" }} wrap="wrap" className={collapsedSettings ? "" : " colorwaysColorpicker-collapsed"}>
+            {mainColors.map(mainColor => <div
+                id={`colorways-toolbox_copy-${mainColor.name}`}
+                className="colorwayToolbox-listItem"
+            >
+                <CopyIcon onClick={() => {
+                    Clipboard.copy(getHex(getComputedStyle(document.body).getPropertyValue(mainColor.var)));
+                    Toasts.show({ message: `${mainColor.title} color copied to clipboard`, id: `toolbox-${mainColor.name}-color-copied`, type: 1 });
+                }} width={20} height={20} className="colorwayToolbox-listItemSVG" />
+                <span className="colorwaysToolbox-label">{`Copy ${mainColor.title} Color`}</span>
             </div>
-        </ModalRoot>
-    );
+            )}
+        </Flex>
+    </ModalRoot>;
 }

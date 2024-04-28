@@ -5,8 +5,9 @@
  */
 
 export interface Colorway {
+    [key: string]: any,
     name: string,
-    import: string,
+    "dc-import": string,
     accent: string,
     primary: string,
     secondary: string,
@@ -15,7 +16,10 @@ export interface Colorway {
     author: string,
     authorID: string,
     colors?: string[],
-    isGradient?: boolean;
+    isGradient?: boolean,
+    sourceUrl?: string,
+    sourceName?: string,
+    linearGradient?: string;
 }
 
 export interface ColorPickerProps {

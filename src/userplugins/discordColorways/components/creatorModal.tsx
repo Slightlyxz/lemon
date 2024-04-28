@@ -13,7 +13,6 @@ import {
     ModalRoot,
     openModal,
 } from "@utils/modal";
-import { findByCode } from "@webpack";
 import {
     Button,
     Forms,
@@ -26,15 +25,15 @@ import {
     useState,
 } from "@webpack/common";
 
-import { ColorPicker, LazySwatchLoaded } from "..";
+import { ColorPicker } from "..";
 import { knownThemeVars } from "../constants";
 import { generateCss, getPreset } from "../css";
 import { Colorway } from "../types";
-import extractAndRequireModuleIds from "../util/requireModule";
-import { getHex, hexToString } from "../utils";
-import { ConflictingColorsModal } from "./conflictingColorsModal";
-import { ThemePreviewCategory } from "./themePreview";
-export default function CreatorModal({
+import { colorToHex, getHex, hexToString } from "../utils";
+import ConflictingColorsModal from "./ConflictingColorsModal";
+import InputColorwayIdModal from "./InputColorwayIdModal";
+import ThemePreviewCategory from "./ThemePreview";
+export default function ({
     modalProps,
     loadUIProps,
     colorwayID
@@ -55,34 +54,56 @@ export default function CreatorModal({
     const [preset, setPreset] = useState<string>("default");
     const [presetColorArray, setPresetColorArray] = useState<string[]>(["primary", "secondary", "tertiary", "accent"]);
 
-    useEffect(() => {
-        if (!LazySwatchLoaded) {
-            extractAndRequireModuleIds(
-                findByCode(
-                    "hasFullScreenLayer"
-                )
-            );
+    const colorProps = {
+        accent: {
+            get: accentColor,
+            set: setAccentColor,
+            name: "Accent"
+        },
+        primary: {
+            get: primaryColor,
+            set: setPrimaryColor,
+            name: "Primary"
+        },
+        secondary: {
+            get: secondaryColor,
+            set: setSecondaryColor,
+            name: "Secondary"
+        },
+        tertiary: {
+            get: tertiaryColor,
+            set: setTertiaryColor,
+            name: "Tertiary"
         }
+    };
+
+    useEffect(() => {
         const parsedID = colorwayID?.split("colorway:")[1];
         if (parsedID) {
-            const allEqual = (arr: any[]) => arr.every(v => v === arr[0]);
             if (!parsedID) {
                 throw new Error("Please enter a Colorway ID");
-            } else if (parsedID.length < 62) {
-                throw new Error("Invalid Colorway ID");
             } else if (!hexToString(parsedID).includes(",")) {
                 throw new Error("Invalid Colorway ID");
-            } else if (!allEqual(hexToString(parsedID).split(",").map((e: string) => e.match("#")!.length)) && hexToString(parsedID).split(",").map((e: string) => e.match("#")!.length)[0] !== 1) {
-                throw new Error("Invalid Colorway ID");
             } else {
-                const colorArray: string[] = hexToString(parsedID).split(",");
-                setAccentColor(colorArray[0].split("#")[1]);
-                setPrimaryColor(colorArray[1].split("#")[1]);
-                setSecondaryColor(colorArray[2].split("#")[1]);
-                setTertiaryColor(colorArray[3].split("#")[1]);
+                const setColor = [
+                    setAccentColor,
+                    setPrimaryColor,
+                    setSecondaryColor,
+                    setTertiaryColor
+                ];
+                hexToString(parsedID).split(/,#/).forEach((color: string, i: number) => setColor[i](colorToHex(color)));
             }
         }
     });
+    const colorPickerProps = {
+        suggestedColors: [
+            "#313338",
+            "#2b2d31",
+            "#1e1f22",
+            "#5865f2",
+        ],
+        showEyeDropper: true
+    };
 
     return (
         <ModalRoot {...modalProps} className="colorwayCreator-modal">
@@ -100,86 +121,26 @@ export default function CreatorModal({
                     value={colorwayName}
                     onChange={setColorwayName}
                 />
-                <Forms.FormTitle style={{ marginBottom: 0 }}>
-                    Colors:
-                </Forms.FormTitle>
-                <div className="colorwayCreator-colorPreviews">
-                    {presetColorArray.includes("primary") ?
-                        <ColorPicker
-                            label={<Text className="colorwaysPicker-colorLabel">Primary</Text>}
-                            color={parseInt(primaryColor, 16)}
-                            onChange={(color: number) => {
-                                let hexColor = color.toString(16);
-                                while (hexColor.length < 6) {
-                                    hexColor = "0" + hexColor;
-                                }
-                                setPrimaryColor(hexColor);
-                            }}
-                            showEyeDropper={true}
-                            suggestedColors={[
-                                "#313338",
-                                "#2b2d31",
-                                "#1e1f22",
-                                "#5865f2",
-                            ]}
-                        /> : <></>}
-                    {presetColorArray.includes("secondary") ?
-                        <ColorPicker
-                            label={<Text className="colorwaysPicker-colorLabel">Secondary</Text>}
-                            color={parseInt(secondaryColor, 16)}
-                            onChange={(color: number) => {
-                                let hexColor = color.toString(16);
-                                while (hexColor.length < 6) {
-                                    hexColor = "0" + hexColor;
-                                }
-                                setSecondaryColor(hexColor);
-                            }}
-                            showEyeDropper={true}
-                            suggestedColors={[
-                                "#313338",
-                                "#2b2d31",
-                                "#1e1f22",
-                                "#5865f2",
-                            ]}
-                        /> : <></>}
-                    {presetColorArray.includes("tertiary") ?
-                        <ColorPicker
-                            label={<Text className="colorwaysPicker-colorLabel">Tertiary</Text>}
-                            color={parseInt(tertiaryColor, 16)}
-                            onChange={(color: number) => {
-                                let hexColor = color.toString(16);
-                                while (hexColor.length < 6) {
-                                    hexColor = "0" + hexColor;
-                                }
-                                setTertiaryColor(hexColor);
-                            }}
-                            showEyeDropper={true}
-                            suggestedColors={[
-                                "#313338",
-                                "#2b2d31",
-                                "#1e1f22",
-                                "#5865f2",
-                            ]}
-                        /> : <></>}
-                    {presetColorArray.includes("accent") ?
-                        <ColorPicker
-                            label={<Text className="colorwaysPicker-colorLabel">Accent</Text>}
-                            color={parseInt(accentColor, 16)}
-                            onChange={(color: number) => {
-                                let hexColor = color.toString(16);
-                                while (hexColor.length < 6) {
-                                    hexColor = "0" + hexColor;
-                                }
-                                setAccentColor(hexColor);
-                            }}
-                            showEyeDropper={true}
-                            suggestedColors={[
-                                "#313338",
-                                "#2b2d31",
-                                "#1e1f22",
-                                "#5865f2",
-                            ]}
-                        /> : <></>}
+                <div className="colorwaysCreator-settingCat">
+                    <Forms.FormTitle style={{ marginBottom: 0 }}>
+                        Colors:
+                    </Forms.FormTitle>
+                    <div className="colorwayCreator-colorPreviews">
+                        {presetColorArray.map(presetColor => {
+                            return <ColorPicker
+                                label={<Text className="colorwaysPicker-colorLabel">{colorProps[presetColor].name}</Text>}
+                                color={parseInt(colorProps[presetColor].get, 16)}
+                                onChange={(color: number) => {
+                                    let hexColor = color.toString(16);
+                                    while (hexColor.length < 6) {
+                                        hexColor = "0" + hexColor;
+                                    }
+                                    colorProps[presetColor].set(hexColor);
+                                }}
+                                {...colorPickerProps}
+                            />;
+                        })}
+                    </div>
                 </div>
                 <div className={`colorwaysCreator-settingCat${collapsedSettings ? " colorwaysCreator-settingCat-collapsed" : ""}`}>
                     <div
@@ -217,7 +178,7 @@ export default function CreatorModal({
                         }}>
                             <svg aria-hidden="true" role="img" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="currentColor" />
-                                {preset === "default" ? <circle cx="12" cy="12" r="5" className="radioIconForeground-3wH3aU" fill="currentColor" /> : <></>}
+                                {preset === "default" && <circle cx="12" cy="12" r="5" className="radioIconForeground-3wH3aU" fill="currentColor" />}
                             </svg>
                             <Text variant="eyebrow" tag="h5">Default</Text>
                         </div>
@@ -228,7 +189,7 @@ export default function CreatorModal({
                             }}>
                                 <svg aria-hidden="true" role="img" width="24" height="24" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="currentColor" />
-                                    {preset === pre.id ? <circle cx="12" cy="12" r="5" className="radioIconForeground-3wH3aU" fill="currentColor" /> : <></>}
+                                    {preset === pre.id && <circle cx="12" cy="12" r="5" className="radioIconForeground-3wH3aU" fill="currentColor" />}
                                 </svg>
                                 <Text variant="eyebrow" tag="h5">{pre.name}</Text>
                             </div>;
@@ -255,16 +216,22 @@ export default function CreatorModal({
                                 discordSaturation
                             );
                         } else {
-                            customColorwayCSS = getPreset(
-                                primaryColor,
-                                secondaryColor,
-                                tertiaryColor,
-                                accentColor
-                            )[preset].preset(discordSaturation);
+                            (getPreset()[preset].id === "gradientType1" || getPreset()[preset].id === "gradientType2") ?
+                                customColorwayCSS = getPreset(
+                                    primaryColor,
+                                    secondaryColor,
+                                    tertiaryColor,
+                                    accentColor
+                                )[preset].preset(discordSaturation).full : customColorwayCSS = getPreset(
+                                    primaryColor,
+                                    secondaryColor,
+                                    tertiaryColor,
+                                    accentColor
+                                )[preset].preset(discordSaturation);
                         }
                         const customColorway: Colorway = {
                             name: (colorwayName || "Colorway") + (preset === "default" ? "" : ": Made for " + getPreset()[preset].name),
-                            import: customColorwayCSS,
+                            "dc-import": customColorwayCSS,
                             accent: "#" + accentColor,
                             primary: "#" + primaryColor,
                             secondary: "#" + secondaryColor,
@@ -272,6 +239,13 @@ export default function CreatorModal({
                             colors: presetColorArray,
                             author: UserStore.getCurrentUser().username,
                             authorID: UserStore.getCurrentUser().id,
+                            isGradient: getPreset()[preset].id === "gradientType1" || getPreset()[preset].id === "gradientType2",
+                            linearGradient: (getPreset()[preset].id === "gradientType1" || getPreset()[preset].id === "gradientType2") ? getPreset(
+                                primaryColor,
+                                secondaryColor,
+                                tertiaryColor,
+                                accentColor
+                            )[preset].preset(discordSaturation).base : null
                         };
                         const customColorwaysArray: Colorway[] = [customColorway];
                         DataStore.get("customColorways").then(
@@ -294,7 +268,7 @@ export default function CreatorModal({
                     style={{ marginLeft: 8 }}
                     color={Button.Colors.PRIMARY}
                     size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.FILLED}
+                    look={Button.Looks.OUTLINED}
                     onClick={() => {
                         function setAllColors({ accent, primary, secondary, tertiary }: { accent: string, primary: string, secondary: string, tertiary: string; }) {
                             setAccentColor(accent.split("#")[1]);
@@ -348,63 +322,16 @@ export default function CreatorModal({
                     style={{ marginLeft: 8 }}
                     color={Button.Colors.PRIMARY}
                     size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.FILLED}
-                    onClick={() => {
-                        let colorwayID: string;
-                        function setColorwayID(e: string) {
-                            colorwayID = e;
-                        }
-                        openModal(props => {
-                            return (
-                                <ModalRoot {...props} className="colorwaysCreator-noMinHeight">
-                                    <ModalContent className="colorwaysCreator-noHeader colorwaysCreator-noMinHeight">
-                                        <Forms.FormTitle>Colorway ID:</Forms.FormTitle>
-                                        <TextInput placeholder="Enter Colorway ID" onInput={e => setColorwayID(e.currentTarget.value)} />
-                                    </ModalContent>
-                                    <ModalFooter>
-                                        <Button
-                                            style={{ marginLeft: 8 }}
-                                            color={Button.Colors.BRAND}
-                                            size={Button.Sizes.MEDIUM}
-                                            look={Button.Looks.FILLED}
-                                            onClick={() => {
-                                                const allEqual = (arr: any[]) => arr.every(v => v === arr[0]);
-                                                if (!colorwayID) {
-                                                    throw new Error("Please enter a Colorway ID");
-                                                } else if (colorwayID.length < 62) {
-                                                    throw new Error("Invalid Colorway ID");
-                                                } else if (!hexToString(colorwayID).includes(",")) {
-                                                    throw new Error("Invalid Colorway ID");
-                                                } else if (!allEqual(hexToString(colorwayID).split(",").map((e: string) => e.match("#")!.length)) && hexToString(colorwayID).split(",").map((e: string) => e.match("#")!.length)[0] !== 1) {
-                                                    throw new Error("Invalid Colorway ID");
-                                                } else {
-                                                    const colorArray: string[] = hexToString(colorwayID).split(",");
-                                                    setAccentColor(colorArray[0].split("#")[1]);
-                                                    setPrimaryColor(colorArray[1].split("#")[1]);
-                                                    setSecondaryColor(colorArray[2].split("#")[1]);
-                                                    setTertiaryColor(colorArray[3].split("#")[1]);
-                                                    props.onClose();
-                                                }
-                                            }}
-                                        >
-                                            Finish
-                                        </Button>
-                                        <Button
-                                            style={{ marginLeft: 8 }}
-                                            color={Button.Colors.PRIMARY}
-                                            size={Button.Sizes.MEDIUM}
-                                            look={Button.Looks.FILLED}
-                                            onClick={() => {
-                                                props.onClose();
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </ModalFooter>
-                                </ModalRoot>
-                            );
-                        });
-                    }}
+                    look={Button.Looks.OUTLINED}
+                    onClick={() => openModal((props: any) => <InputColorwayIdModal modalProps={props} onColorwayId={colorwayID => {
+                        const setColor = [
+                            setAccentColor,
+                            setPrimaryColor,
+                            setSecondaryColor,
+                            setTertiaryColor
+                        ];
+                        hexToString(colorwayID).split(/,#/).forEach((color: string, i: number) => setColor[i](colorToHex(color)));
+                    }} />)}
                 >
                     Enter Colorway ID
                 </Button>
@@ -412,7 +339,7 @@ export default function CreatorModal({
                     style={{ marginLeft: 8 }}
                     color={Button.Colors.PRIMARY}
                     size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.FILLED}
+                    look={Button.Looks.OUTLINED}
                     onClick={() => {
                         modalProps.onClose();
                     }}
