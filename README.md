@@ -23,6 +23,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   Sekaistickers ([by maikokain](https://github.com/maikokain/sekaistickers-vencord))
 -   [D3SOX's plugins](https://github.com/D3SOX/vencord-userplugins)
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
+-   Quest Completer ([by happyendermangit](https://github.com/Wumpus-University/QuestsCompleter)
 
 ## Disclaimer
 
