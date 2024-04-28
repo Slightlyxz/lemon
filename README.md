@@ -15,7 +15,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   BypassDND ([by Inbestigator](https://github.com/Vendicated/Vencord/pull/2239))
 -   iRememberYou ([by zoodogood](https://github.com/zoodogood/vencord-plugins))
 -   jumpToFirst ([by cheesesamwich](https://github.com/Vendicated/Vencord/pull/2171))
--   BetterQuests ([by kvbaxi](https://github.com/Vendicated/Vencord/pull/2364))
+-   BetterQuests ([by kvbaxi](https://github.com/Vendicated/Vencord/pull/2380))
 -   replaceActivityTypes ([by Nyako](https://github.com/nyakowint/replaceActivityTypes))
 -   vc-gif-collections ([by Syncxv](https://github.com/Syncxv/vc-gif-collections))
 -   vc-message-logger-enhanced ([by Syncxv](https://github.com/Syncxv/vc-message-logger-enhanced))
@@ -24,6 +24,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   Quest Completer ([by happyendermangit](https://github.com/Wumpus-University/QuestsCompleter)
 -   betterShopPreview ([by Tolga1452](https://github.com/Tolga1452/Vencord))
+-   validReply ([by waresnew](https://github.com/waresnew/Vencord/tree/validReply))
 
 ## Disclaimer
 
