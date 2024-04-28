@@ -20,7 +20,6 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   vc-gif-collections ([by Syncxv](https://github.com/Syncxv/vc-gif-collections))
 -   vc-message-logger-enhanced ([by Syncxv](https://github.com/Syncxv/vc-message-logger-enhanced))
 -   watchTogetherAdblock ([by ImLvna](https://github.com/Vendicated/Vencord/pull/2021))
--   Sekaistickers ([by maikokain](https://github.com/maikokain/sekaistickers-vencord))
 -   [D3SOX's plugins](https://github.com/D3SOX/vencord-userplugins)
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   Quest Completer ([by happyendermangit](https://github.com/Wumpus-University/QuestsCompleter)
