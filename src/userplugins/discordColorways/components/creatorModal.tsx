@@ -30,9 +30,9 @@ import { knownThemeVars } from "../constants";
 import { generateCss, getPreset } from "../css";
 import { Colorway } from "../types";
 import { colorToHex, getHex, hexToString } from "../utils";
-import ConflictingColorsModal from "./ConflictingColorsModal";
-import InputColorwayIdModal from "./InputColorwayIdModal";
-import ThemePreviewCategory from "./ThemePreview";
+import ConflictingColorsModal from "./conflictingColorsModal";
+import InputColorwayIdModal from "./inputColorwayIdModal";
+import ThemePreviewCategory from "./themePreview";
 export default function ({
     modalProps,
     loadUIProps,

@@ -19,7 +19,7 @@ import { ColorwayCSS } from "..";
 import { generateCss } from "../css";
 import { Colorway } from "../types";
 import { colorToHex } from "../utils";
-import ThemePreviewCategory from "./ThemePreview";
+import ThemePreviewCategory from "./themePreview";
 
 export default function ({
     modalProps,

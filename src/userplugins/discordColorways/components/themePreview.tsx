@@ -12,7 +12,7 @@ import {
 } from "@webpack/common";
 
 import { HexToHSL } from "../utils";
-import { CloseIcon } from "./Icons";
+import { CloseIcon } from "./icons";
 
 export default function ({
     accent,

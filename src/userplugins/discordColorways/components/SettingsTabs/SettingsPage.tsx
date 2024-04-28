@@ -27,7 +27,7 @@ import { versionData } from "userplugins/discordColorways";
 
 import { defaultColorwaySource, fallbackColorways, knownColorwaySources } from "../../constants";
 import { Colorway } from "../../types";
-import { CloseIcon } from "../Icons";
+import { CloseIcon } from "../icons";
 
 export default function () {
     const [colorways, setColorways] = useState<Colorway[]>([]);

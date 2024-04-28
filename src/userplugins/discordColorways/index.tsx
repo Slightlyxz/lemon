@@ -16,14 +16,14 @@ import {
     SettingsRouter,
 } from "@webpack/common";
 
-import ColorPickerModal from "./components/ColorPicker";
-import ColorwaysButton from "./components/ColorwaysButton";
-import CreatorModal from "./components/CreatorModal";
-import Selector from "./components/Selector";
-import ManageColorwaysPage from "./components/SettingsTabs/ManageColorwaysPage";
-import OnDemandWaysPage from "./components/SettingsTabs/OnDemandPage";
-import SettingsPage from "./components/SettingsTabs/SettingsPage";
-import Spinner from "./components/Spinner";
+import ColorPickerModal from "./components/colorPicker";
+import ColorwaysButton from "./components/colorwaysButton";
+import CreatorModal from "./components/creatorModal";
+import Selector from "./components/selector";
+import ManageColorwaysPage from "./components/settingsTabs/manageColorwaysPage";
+import OnDemandWaysPage from "./components/settingsTabs/onDemandPage";
+import SettingsPage from "./components/settingsTabs/settingsPage";
+import Spinner from "./components/spinner";
 import { defaultColorwaySource } from "./constants";
 import style from "./style.css?managed";
 import { ColorPickerProps } from "./types";

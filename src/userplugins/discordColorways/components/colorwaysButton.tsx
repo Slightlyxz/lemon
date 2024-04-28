@@ -9,8 +9,8 @@ import { openModal } from "@utils/modal";
 import { FluxDispatcher, Text, Tooltip, useEffect, useState } from "@webpack/common";
 import { FluxEvents } from "@webpack/types";
 
-import { PalleteIcon } from "./Icons";
-import Selector from "./Selector";
+import { PalleteIcon } from "./icons";
+import Selector from "./selector";
 
 export default function ({
     listItemClass = "ColorwaySelectorBtnContainer",

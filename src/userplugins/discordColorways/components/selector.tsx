@@ -32,10 +32,10 @@ import { defaultColorwaySource, fallbackColorways } from "../constants";
 import { generateCss, gradientBase } from "../css";
 import { Colorway } from "../types";
 import { colorToHex } from "../utils";
-import ColorPickerModal from "./ColorPicker";
-import CreatorModal from "./CreatorModal";
-import { CloseIcon } from "./Icons";
-import ColorwayInfoModal from "./InfoModal";
+import ColorPickerModal from "./colorPicker";
+import CreatorModal from "./creatorModal";
+import { CloseIcon } from "./icons";
+import ColorwayInfoModal from "./infoModal";
 
 const { SelectionCircle } = findByPropsLazy("SelectionCircle");
 
