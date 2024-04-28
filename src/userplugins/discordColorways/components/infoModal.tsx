@@ -16,12 +16,10 @@ import {
 import { Button, Clipboard, Forms, Text, Toasts } from "@webpack/common";
 
 import { ColorwayCSS } from "..";
-import { generateCss } from "../css";
 import { Colorway } from "../types";
-import { colorToHex } from "../utils";
-import ThemePreviewCategory from "./themePreview";
+import { ThemePreviewCategory } from "./themePreview";
 
-export default function ({
+export default function ColorwayInfoModal({
     modalProps,
     colorwayProps,
     discrimProps = false,
@@ -92,7 +90,7 @@ export default function ({
                             selectable={true}
                             className="colorwayInfo-cssCodeblock"
                         >
-                            {colorwayProps["dc-import"]}
+                            {colorwayProps.import}
                         </Text>
                     </div>
                     <ThemePreviewCategory
@@ -105,160 +103,98 @@ export default function ({
                     ></ThemePreviewCategory>
                 </div>
             </ModalContent>
-            <ModalFooter>
-                {discrimProps && <Button
-                    style={{ marginLeft: 8 }}
-                    color={Button.Colors.RED}
-                    size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.FILLED}
-                    onClick={async () => {
-                        const customColorways = await DataStore.get("customColorways");
-                        const actveColorwayID = await DataStore.get("actveColorwayID");
-                        const customColorwaysArray: Colorway[] = [];
-                        customColorways.map((color: Colorway, i: number) => {
-                            if (customColorways.length > 0) {
-                                if (color.name !== colorwayProps.name) {
-                                    customColorwaysArray.push(color);
+            {discrimProps === true ? (
+                <ModalFooter>
+                    <Button
+                        style={{ marginLeft: 8 }}
+                        color={Button.Colors.RED}
+                        size={Button.Sizes.MEDIUM}
+                        look={Button.Looks.FILLED}
+                        onClick={async () => {
+                            const customColorways = await DataStore.get("customColorways");
+                            const actveColorwayID = await DataStore.get("actveColorwayID");
+                            const customColorwaysArray: Colorway[] = [];
+                            customColorways.map((color: Colorway, i: number) => {
+                                if (customColorways.length > 0) {
+                                    if (color.name !== colorwayProps.name) {
+                                        customColorwaysArray.push(color);
+                                    }
+                                    if (++i === customColorways.length) {
+                                        DataStore.set("customColorways", customColorwaysArray);
+                                    }
+                                    if (actveColorwayID === colorwayProps.name) {
+                                        DataStore.set("actveColorway", null);
+                                        DataStore.set("actveColorwayID", null);
+                                        ColorwayCSS.set("");
+                                    }
+                                    modalProps.onClose();
+                                    loadUIProps();
                                 }
-                                if (++i === customColorways.length) {
-                                    DataStore.set("customColorways", customColorwaysArray);
-                                }
-                                if (actveColorwayID === colorwayProps.name) {
-                                    DataStore.set("actveColorway", null);
-                                    DataStore.set("actveColorwayID", null);
-                                    ColorwayCSS.set("");
-                                }
-                                modalProps.onClose();
-                                loadUIProps();
-                            }
-                        });
-                    }}
-                >
-                    Delete...
-                </Button>}
-                <Button
-                    style={{ marginLeft: 8 }}
-                    color={Button.Colors.PRIMARY}
-                    size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.OUTLINED}
-                    onClick={() => {
-                        const stringToHex = (str: string) => {
-                            let hex = "";
-                            for (let i = 0; i < str.length; i++) {
-                                const charCode = str.charCodeAt(i);
-                                const hexValue = charCode.toString(16);
+                            });
+                        }}
+                    >
+                        Delete Colorway
+                    </Button>
+                    <Button
+                        style={{ marginLeft: 8 }}
+                        color={Button.Colors.PRIMARY}
+                        size={Button.Sizes.MEDIUM}
+                        look={Button.Looks.FILLED}
+                        onClick={() => {
+                            const stringToHex = (str: string) => {
+                                let hex = "";
+                                for (let i = 0; i < str.length; i++) {
+                                    const charCode = str.charCodeAt(i);
+                                    const hexValue = charCode.toString(16);
 
-                                // Pad with zeros to ensure two-digit representation
-                                hex += hexValue.padStart(2, "0");
-                            }
-                            return hex;
-                        };
-                        const colorwayIDArray = `${colorwayProps.accent},${colorwayProps.primary},${colorwayProps.secondary},${colorwayProps.tertiary}`;
-                        const colorwayID = stringToHex(colorwayIDArray);
-                        Clipboard.copy(colorwayID);
-                        Toasts.show({
-                            message: "Copied Colorway ID Successfully",
-                            type: 1,
-                            id: "copy-colorway-id-notify",
-                        });
-                    }}
-                >
-                    Copy Colorway ID
-                </Button>
-                <Button
-                    style={{ marginLeft: 8 }}
-                    color={Button.Colors.PRIMARY}
-                    size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.OUTLINED}
-                    onClick={() => {
-                        Clipboard.copy(colorwayProps["dc-import"]);
-                        Toasts.show({
-                            message: "Copied CSS to Clipboard",
-                            type: 1,
-                            id: "copy-colorway-css-notify",
-                        });
-                    }}
-                >
-                    Copy CSS
-                </Button>
-                {discrimProps ? <Button
-                    style={{ marginLeft: 8 }}
-                    color={Button.Colors.PRIMARY}
-                    size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.OUTLINED}
-                    onClick={async () => {
-                        const customColorways = await DataStore.get("customColorways");
-                        const customColorwaysArray: Colorway[] = [];
-                        customColorways.map((color: Colorway, i: number) => {
-                            if (customColorways.length > 0) {
-                                if (color.name === colorwayProps.name) {
-                                    color["dc-import"] = generateCss(colorToHex(color.primary) || "313338", colorToHex(color.secondary) || "2b2d31", colorToHex(color.tertiary) || "1e1f22", colorToHex(color.accent) || "5865f2", true, true);
-                                    customColorwaysArray.push(color);
-                                } else {
-                                    customColorwaysArray.push(color);
+                                    // Pad with zeros to ensure two-digit representation
+                                    hex += hexValue.padStart(2, "0");
                                 }
-                                if (++i === customColorways.length) {
-                                    DataStore.set("customColorways", customColorwaysArray);
-                                }
-                                modalProps.onClose();
-                                loadUIProps();
-                            }
-                        });
-                    }}
-                >
-                    Update CSS
-                </Button> : <Button
-                    style={{ marginLeft: 8 }}
-                    color={Button.Colors.PRIMARY}
-                    size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.OUTLINED}
-                    onClick={async () => {
-                        const colorwaySourceFiles = await DataStore.get(
-                            "colorwaySourceFiles"
-                        );
-                        const responses: Response[] = await Promise.all(
-                            colorwaySourceFiles.map((url: string) =>
-                                fetch(url)
-                            )
-                        );
-                        const data = await Promise.all(
-                            responses.map((res: Response) =>
-                                res.json().then(dt => { return { colorways: dt.colorways, url: res.url }; }).catch(() => { return { colorways: [], url: res.url }; })
-                            ));
-                        const colorways = data.flatMap(json => json.colorways);
-
-                        const customColorways = await DataStore.get("customColorways");
-                        const customColorwaysArray: Colorway[] = [];
-                        colorways.map((color: Colorway, i: number) => {
-                            if (colorways.length > 0) {
-                                if (color.name === colorwayProps.name) {
-                                    color.name += " (Custom)";
-                                    color["dc-import"] = generateCss(colorToHex(color.primary) || "313338", colorToHex(color.secondary) || "2b2d31", colorToHex(color.tertiary) || "1e1f22", colorToHex(color.accent) || "5865f2", true, true);
-                                    customColorwaysArray.push(color);
-                                }
-                                if (++i === colorways.length) {
-                                    DataStore.set("customColorways", [...customColorways, ...customColorwaysArray]);
-                                }
-                                modalProps.onClose();
-                                loadUIProps();
-                            }
-                        });
-                    }}
-                >
-                    Update CSS (Local)
-                </Button>}
-                <Button
-                    style={{ marginLeft: 8 }}
-                    color={Button.Colors.PRIMARY}
-                    size={Button.Sizes.MEDIUM}
-                    look={Button.Looks.OUTLINED}
-                    onClick={() => {
-                        modalProps.onClose();
-                    }}
-                >
-                    Cancel
-                </Button>
-            </ModalFooter>
+                                return hex;
+                            };
+                            const colorwayIDArray = `${colorwayProps.accent},${colorwayProps.primary},${colorwayProps.secondary},${colorwayProps.tertiary}`;
+                            const colorwayID = stringToHex(colorwayIDArray);
+                            Clipboard.copy(colorwayID);
+                            Toasts.show({
+                                message: "Copied Colorway ID Successfully",
+                                type: 1,
+                                id: "copy-colorway-id-notify",
+                            });
+                        }}
+                    >
+                        Copy Colorway ID
+                    </Button>
+                    <Button
+                        style={{ marginLeft: 8 }}
+                        color={Button.Colors.PRIMARY}
+                        size={Button.Sizes.MEDIUM}
+                        look={Button.Looks.FILLED}
+                        onClick={() => {
+                            Clipboard.copy(colorwayProps.import);
+                            Toasts.show({
+                                message: "Copied CSS to Clipboard",
+                                type: 1,
+                                id: "copy-colorway-css-notify",
+                            });
+                        }}
+                    >
+                        Copy CSS
+                    </Button>
+                    <Button
+                        style={{ marginLeft: 8 }}
+                        color={Button.Colors.PRIMARY}
+                        size={Button.Sizes.MEDIUM}
+                        look={Button.Looks.FILLED}
+                        onClick={() => {
+                            modalProps.onClose();
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                </ModalFooter>
+            ) : (
+                <div className="colorwaySelector-noDisplay"></div>
+            )}
         </ModalRoot>
     );
 }

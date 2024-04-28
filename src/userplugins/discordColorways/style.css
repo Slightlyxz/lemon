@@ -25,6 +25,7 @@
 .discordColorway {
     height: 60px;
     width: 60px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     flex-flow: wrap;
@@ -32,11 +33,12 @@
     position: relative;
     align-items: center;
     justify-content: center;
-    transition: 170ms ease;
+    transition: .1s;
+    box-shadow: inset 0 0 0 1px var(--interactive-normal);
 }
 
 .discordColorway:hover {
-    filter: brightness(.8);
+    box-shadow: inset 0 0 0 1px var(--interactive-active);
 }
 
 .discordColorwayPreviewColorContainer {
@@ -47,13 +49,25 @@
     border-radius: 50%;
     width: 56px;
     height: 56px;
-    box-shadow: 0 0 0 1.5px var(--interactive-normal);
-    box-sizing: border-box;
+}
+
+.discordColorway.active {
+    box-shadow: inset 0 0 0 2px var(--brand-500), inset 0 0 0 4px var(--background-primary);
+}
+
+.discordColorway.active .discordColorwayPreviewColorContainer {
+    width: 52px;
+    height: 52px;
 }
 
 .discordColorwayPreviewColor {
     width: 50%;
     height: 50%;
+}
+
+.discordColorway.active>.discordColorwayPreviewColor {
+    width: 30px;
+    height: 30px;
 }
 
 .discordColorwayPreviewColorContainer:not(:has(>.discordColorwayPreviewColor:nth-child(2)))>.discordColorwayPreviewColor {
@@ -72,19 +86,16 @@
 .ColorwaySelectorWrapper {
     position: relative;
     display: flex;
-    gap: 16px 23px;
+    gap: 16px 24px;
     width: 100%;
     flex-wrap: wrap;
-    padding: 2px;
-    scrollbar-width: none !important;
-}
-
-.ColorwaySelectorWrapper::-webkit-scrollbar {
-    width: 0;
 }
 
 .colorwaySelectorModal {
     width: 100% !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--background-tertiary) !important;
+    box-shadow: var(--dark-elevation-high) !important;
     min-width: 596px !important;
 }
 
@@ -95,7 +106,8 @@
     width: 100%;
     max-width: 596px;
     overflow: visible !important;
-    padding: 0 16px 16px !important;
+    padding: 16px !important;
+    padding-right: 16px !important;
 }
 
 .ColorwaySelectorBtnContainer {
@@ -108,28 +120,54 @@
     width: 72px;
 }
 
-.colorwayInfoIconContainer {
-    height: 22px;
-    width: 22px;
+.colorwayCheckIconContainer {
+    height: 20px;
+    width: 20px;
     background-color: var(--brand-500);
     position: absolute;
-    top: -1px;
-    left: -1px;
+    top: 0;
+    right: 0;
     border-radius: 50%;
     opacity: 0;
     z-index: +1;
+}
+
+.discordColorway.active .colorwayCheckIconContainer {
+    opacity: 1;
+}
+
+.colorwayCheckIcon {
+    height: 20px;
+    width: 20px;
     color: var(--white-500);
-    padding: 1px;
-    box-sizing: border-box;
+}
+
+.colorwayInfoIconContainer {
+    height: 20px;
+    width: 20px;
+    background-color: var(--brand-500);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 0;
+    z-index: +1;
 }
 
 .colorwayInfoIconContainer:hover {
-    background-color: var(--brand-experiment-560);
+    background-color: var(--brand-700);
 }
 
 .discordColorway:hover .colorwayInfoIconContainer {
     opacity: 1;
     transition: .15s;
+}
+
+.colorwayInfoIcon {
+    height: 20px;
+    width: 20px;
+    color: var(--white-500);
+    padding: 2px;
 }
 
 .colorwayCreator-swatch {
@@ -159,7 +197,9 @@
     gap: 8px;
     position: relative;
     border-radius: 4px;
+    background-color: var(--background-secondary);
     box-sizing: border-box;
+    padding: 10px;
 }
 
 .colorwayCreator-colorInput {
@@ -176,7 +216,6 @@
     gap: 8px;
     padding: 20px 16px !important;
     overflow: visible !important;
-    min-height: unset;
 }
 
 .colorwayCreator-modal {
@@ -185,8 +224,16 @@
     max-height: unset !important;
 }
 
+.colorwayCreator-colorPreviews:has(>.colorways-creator-module-warning) {
+    background-color: transparent;
+}
+
 .colorways-creator-module-warning {
     color: var(--brand-500);
+}
+
+.colorways-creator-module-warning~.colorways-creator-module-warning {
+    display: none;
 }
 
 .colorwayCreator-colorPreviews>[class^="colorSwatch"],
@@ -311,16 +358,6 @@
     overflow: hidden overlay;
 }
 
-.colorwaysColorpicker-settingCat {
-    padding: 0;
-    background-color: transparent;
-    border-radius: 0;
-}
-
-.colorwaysColorpicker-search {
-    width: 100%;
-}
-
 .colorwaysCreator-settingItm {
     display: flex;
     flex-direction: row;
@@ -347,17 +384,8 @@
     max-height: 185px;
 }
 
-.colorwaysCreator-settingCat-collapsed>.colorwaysCreator-settingsList,
-.colorwaysColorpicker-collapsed {
-    display: none !important;
-}
-
-.colorwayColorpicker {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 16px !important;
-    width: 620px !important;
-    min-height: unset;
+.colorwaysCreator-settingCat-collapsed>.colorwaysCreator-settingsList {
+    display: none;
 }
 
 .colorwaysCreator-noHeader {
@@ -383,8 +411,8 @@
 .colorwaysPreview-modal {
     max-width: unset !important;
     max-height: unset !important;
-    width: 90vw;
-    height: 90vh;
+    width: fit-content;
+    height: fit-content;
 }
 
 .colorwaysPreview-titlebar {
@@ -508,9 +536,9 @@
     padding: 0;
 }
 
-.colorwayToolbox-listItemSVG {
-    padding: 19px;
-    overflow: visible;
+.colorwayToolbox-listItem .bi {
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     background-color: var(--background-tertiary);
     border: 1px solid transparent;
@@ -526,7 +554,7 @@
     color: var(--interactive-normal) !important;
 }
 
-.colorwayToolbox-listItemSVG:hover {
+.colorwayToolbox-listItem .bi:hover {
     border-color: var(--brand-500);
     background-color: var(--brand-experiment-15a);
     color: var(--interactive-hover) !important;
@@ -550,6 +578,16 @@
     overflow: hidden;
 }
 
+.colorwayToolbox-itemList {
+    flex: 0 0 auto;
+    max-height: calc(720px - 65px);
+    padding: 0;
+    overflow: visible !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 0;
+}
+
 .colorwayPreview-chatBox {
     height: 32px;
     border-radius: 6px;
@@ -569,6 +607,7 @@
     width: 100%;
     height: 32px;
     flex: 1 0 auto;
+    transition: background-color .1s linear;
     font-family: var(--font-display);
     font-weight: 500;
     padding: 12px 16px;
@@ -619,18 +658,23 @@
 
 .colorwaySelector-search {
     width: 100%;
+    height: 32px;
+}
+
+.colorwaysSettingsSelector-wrapper .colorwaySelector-search {
+    width: 260px;
 }
 
 .colorwaySelector-searchInput {
-    border-radius: 0 3px 3px 0 !important;
-    flex: 0 0 auto;
+    height: 32px !important;
+    border-radius: 50px !important;
+    border: 1px solid transparent !important;
+    transition: .15s ease !important;
+    padding: 0 12px !important;
 }
 
-.colorwaySelector-pill.colorwaySelector-pill_select {
-    border-radius: 3px 0 0 3px !important;
-    flex: 0 0 auto;
-    border: none;
-    height: 40px;
+.colorwaySelector-searchInput:hover {
+    border-color: transparent !important;
 }
 
 .colorwaySelector-headerBtn {
@@ -639,12 +683,71 @@
     right: 20px;
 }
 
-.theme-light .colorwaySelector-pill_selected {
+.colorwaySelector-pill {
+    border-radius: 20px !important;
+    background-color: var(--background-tertiary);
+    border: 1px solid transparent;
+    box-sizing: border-box !important;
+    padding: 0 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 32px;
+    overflow: hidden;
+    color: var(--text-normal);
+    cursor: pointer;
+    transition: .15s ease;
+    gap: 12px;
+}
+
+.colorwaySelector-pillPopout {
+    background-color: var(--background-tertiary);
+    border-radius: 8px;
+}
+
+.colorwaySelector-pillWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colorwaySelector-pillOption {
+    background-color: var(--background-tertiary) !important;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    padding: 0 12px;
+    height: 32px;
+    transition: .15s ease;
+}
+
+.colorwaySelector-pillOption:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.colorwaySelector-pillOption:nth-last-child(2) {
+    border-radius: 0 0 8px 8px;
+}
+
+.colorwaySelector-doublePillBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-light .colorwaySelector-pill_selected,
+.theme-light .colorwaySelector-pill:hover,
+.theme-light .colorwaySelector-searchInput:focus,
+.theme-light .colorwaySelector-pillOption:hover,
+.theme-light .colorwaySelector-pillOption[aria-selected="true"] {
     border-color: var(--brand-500) !important;
     background-color: var(--brand-experiment-160) !important;
 }
 
-.theme-dark .colorwaySelector-pill_selected {
+.theme-dark .colorwaySelector-pill_selected,
+.theme-dark .colorwaySelector-pill:hover,
+.theme-dark .colorwaySelector-searchInput:focus,
+.theme-dark .colorwaySelector-pillOption:hover,
+.theme-dark .colorwaySelector-pillOption[aria-selected="true"] {
     border-color: var(--brand-500) !important;
     background-color: var(--brand-experiment-15a) !important;
 }
@@ -690,6 +793,13 @@
     height: 24px;
     width: 1px;
     background-color: var(--primary-400);
+}
+
+.colorwaysSelector-infoRow {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
 }
 
 .colorwaysSelector-changelog {
@@ -911,32 +1021,30 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 8px;
+    padding: 8px 16px;
     gap: 5px;
+    cursor: pointer;
     border-radius: 4px;
     box-sizing: border-box;
-    min-height: 44px;
+    min-height: 51px;
     align-items: center;
 }
 
-.theme-dark .colorwaysSettings-colorwaySource {
-    background: var(--bg-overlay-3,var(--background-secondary));
-}
-
-.theme-light .colorwaysSettings-colorwaySource {
-    background: var(--bg-overlay-2,var(--background-secondary));
-}
-
 .colorwaysSettings-colorwaySource:hover {
-    background-color: var(--background-secondary-alt);
+    background-color: var(--background-modifier-hover);
 }
 
-.theme-dark .colorwaysSettings-colorwaySource:hover {
-    background: var(--bg-overlay-1,var(--background-secondary-alt));
-}
-
-.theme-light .colorwaysSettings-colorwaySource:hover {
-    background: var(--bg-overlay-3,var(--background-secondary-alt));
+.colorwaysSettings-colorwaySources {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+    border-radius: 4px;
+    background-color: var(--background-secondary);
+    box-sizing: border-box;
+    color: var(--header-secondary);
+    overflow: hidden overlay;
+    margin-bottom: 4px;
 }
 
 .colorwaysSettings-modalRoot {
@@ -1037,6 +1145,47 @@
     justify-content: start;
 }
 
+.colorwaysSettingsSelector-infoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.colorwaysSettings-label {
+    flex: 1;
+    display: block;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--header-primary);
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 500;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
+.colorwaysSettingsPage-settingsRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.colorwaysSettingsPage-divider {
+    width: 100%;
+    height: 1px;
+    border-top: thin solid var(--background-modifier-accent);
+    margin-top: var(--custom-margin-margin-medium);
+    margin-bottom: 20px;
+}
+
+.colorwaysSettingsPage-settingsGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .colorwaysCreator-toolboxItm:hover {
     background-color: var(--brand-experiment) !important;
 }
@@ -1054,6 +1203,11 @@
     justify-content: center;
 }
 
+.colorwaysSettingsPage-settingsRowWithDescription {
+    display: flex;
+    flex-direction: column;
+}
+
 .ColorwaySelectorBtn_thin {
     height: 21px !important;
     width: 56px !important;
@@ -1065,81 +1219,4 @@
 
 .colorwaySelector-searchPopout {
     display: none !important;
-}
-
-.colorways-badge {
-    font-size: .625rem;
-    text-transform: uppercase;
-    vertical-align: top;
-    display: inline-flex;
-    align-items: center;
-    text-indent: 0;
-    background: var(--brand-experiment);
-    color: var(--white-500);
-    flex: 0 0 auto;
-    height: 15px;
-    padding: 0 4px;
-    margin-top: 1px;
-    border-radius: 4px;
-}
-
-.hoverRoll {
-    display: inline-block;
-    vertical-align: top;
-    cursor: default;
-    text-align: left;
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    contain: paint;
-}
-
-.hoverRoll_hovered {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: block;
-    transition: all.22s ease;
-    transform-style: preserve-3d;
-    pointer-events: none;
-    width: 100%;
-    opacity: 0;
-    transform: translate3d(0, 107%, 0);
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-}
-
-.hoverRoll:hover .hoverRoll_hovered,
-.colorwaysSettings-colorwaySource:hover .hoverRoll_hovered {
-    transform: translateZ(0);
-    opacity: 1;
-}
-
-.hoverRoll_normal {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: block;
-    transition: all .22s ease;
-    transform-style: preserve-3d;
-    pointer-events: none;
-    width: 100%;
-}
-
-.hoverRoll:hover .hoverRoll_normal,
-.colorwaysSettings-colorwaySource:hover .hoverRoll_normal {
-    transform: translate3d(0,-107%,0);
-    opacity: 0;
-    user-select: none;
-}
-
-.dc-warning-card {
-    padding: 1em;
-    margin-bottom: 1em;
-    background-color: var(--info-warning-background);
-    border-color: var(--info-warning-foreground);
-    color: var(--info-warning-text);
 }

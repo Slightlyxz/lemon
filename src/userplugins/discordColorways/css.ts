@@ -290,73 +290,9 @@ const BrandLightDiffs = {
     900: -61.6
 };
 
-export const pureGradientBase = `
-.theme-dark :is(.colorwaysPreview-modal, .colorwaysPreview) {
-    --bg-overlay-color: 0 0 0;
-    --bg-overlay-color-inverse: 255 255 255;
-    --bg-overlay-opacity-1: 0.85;
-    --bg-overlay-opacity-2: 0.8;
-    --bg-overlay-opacity-3: 0.7;
-    --bg-overlay-opacity-4: 0.5;
-    --bg-overlay-opacity-5: 0.4;
-    --bg-overlay-opacity-6: 0.1;
-    --bg-overlay-opacity-hover: 0.5;
-    --bg-overlay-opacity-hover-inverse: 0.08;
-    --bg-overlay-opacity-active: 0.45;
-    --bg-overlay-opacity-active-inverse: 0.1;
-    --bg-overlay-opacity-selected: 0.4;
-    --bg-overlay-opacity-selected-inverse: 0.15;
-    --bg-overlay-opacity-chat: 0.8;
-    --bg-overlay-opacity-home: 0.85;
-    --bg-overlay-opacity-home-card: 0.8;
-    --bg-overlay-opacity-app-frame: var(--bg-overlay-opacity-4);
-    --bg-guild-button: rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-6));
-    --bg-secondary-alt: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-3)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-3))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-chat-header: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-2)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-2))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-}
-.theme-light :is(.colorwaysPreview-modal, .colorwaysPreview) {
-    --bg-overlay-color: 255 255 255;
-    --bg-overlay-color-inverse: 0 0 0;
-    --bg-overlay-opacity-1: 0.9;
-    --bg-overlay-opacity-2: 0.8;
-    --bg-overlay-opacity-3: 0.7;
-    --bg-overlay-opacity-4: 0.6;
-    --bg-overlay-opacity-5: 0.3;
-    --bg-overlay-opacity-6: 0.15;
-    --bg-overlay-opacity-hover: 0.7;
-    --bg-overlay-opacity-hover-inverse: 0.02;
-    --bg-overlay-opacity-active: 0.65;
-    --bg-overlay-opacity-active-inverse: 0.03;
-    --bg-overlay-opacity-selected: 0.6;
-    --bg-overlay-opacity-selected-inverse: 0.04;
-    --bg-overlay-opacity-chat: 0.9;
-    --bg-overlay-opacity-home: 0.7;
-    --bg-overlay-opacity-home-card: 0.9;
-    --bg-overlay-opacity-app-frame: var(--bg-overlay-opacity-5);
-    --bg-guild-button: rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-3));
-    --bg-secondary-alt: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-1)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-1))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-chat-header: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-1)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-1))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-}
-.colorwaysPreview-modal,
-.colorwaysPreview {
-    --bg-overlay-1: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-1)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-1))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-2: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-2)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-2))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-3: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-3)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-3))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-4: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-4)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-4))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-5: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-5)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-5))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-6: linear-gradient(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-6)),rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-6))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-hover: linear-gradient(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-hover-inverse)),rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-hover-inverse))) fixed 0 0/cover,linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-hover)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-hover))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-active: linear-gradient(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-active-inverse)),rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-active-inverse))) fixed 0 0/cover,linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-active)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-active))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-selected: linear-gradient(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-selected-inverse)),rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-selected-inverse))) fixed 0 0/cover,linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-selected)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-selected))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-chat: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-chat)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-chat))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-home: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-home-card: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home-card)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home-card))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-    --bg-overlay-app-frame: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-app-frame)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-app-frame))) fixed 0 0/cover,var(--gradient-theme-bg) fixed 0 0/cover;
-}`;
-
-
-export function gradientBase(accentColor?: string, discordSaturation = false) {
-    return `@import url(//dablulite.github.io/css-snippets/NitroThemesFix/import.css);
+function gradientBase(accentColor?: string, discordSaturation = false) {
+    return `@import url(//dablulite.github.io/css-snippets/NoLightInDark/import.css);
+@import url(//dablulite.github.io/css-snippets/NitroThemesFix/import.css);
 .theme-dark {
     --bg-overlay-color: 0 0 0;
     --bg-overlay-color-inverse: 255 255 255;
@@ -397,31 +333,31 @@ export function gradientBase(accentColor?: string, discordSaturation = false) {
     --bg-overlay-opacity-home-card: 0.9;
     --bg-overlay-opacity-app-frame: var(--bg-overlay-opacity-5);
 }
-.children_cde9af:after, .form_d8a4a1:before {
+.children__32014:after, .form__13a2c:before {
     content: none;
 }
-.scroller_de945b {
+.scroller__3d071 {
     background: var(--bg-overlay-app-frame,var(--background-tertiary));
 }
-.expandedFolderBackground_b1385f {
+.expandedFolderBackground__1bec6 {
     background: rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-6));
 }
-.wrapper__8436d:not(:hover):not(.selected_ae80f7) .childWrapper_a6ce15 {
+.wrapper_d281dd:not(:hover):not(.selected_f5ec8e) .childWrapper__01b9c {
     background: rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-6));
 }
-.folder__17546:has(.expandedFolderIconWrapper__324c1) {
+.folder__17546:has(.expandedFolderIconWrapper__458cf) {
     background: var(--bg-overlay-6,var(--background-secondary));
 }
-.circleIconButton__05cf2:not(.selected_aded59) {
+.circleIconButton_d8df29:not(.selected__5250e) {
     background: rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-6));
 }
-.auto_a3c0bd::-webkit-scrollbar-thumb,
+.auto_a48086::-webkit-scrollbar-thumb,
 .thin_b1c063::-webkit-scrollbar-thumb {
     background-size: 200vh;
     background-image: -webkit-gradient(linear,left top,left bottom,from(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-4))),to(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-4)))),var(--custom-theme-background);
     background-image: linear-gradient(rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-4)),rgb(var(--bg-overlay-color-inverse)/var(--bg-overlay-opacity-4))),var(--custom-theme-background);
 }
-.auto_a3c0bd::-webkit-scrollbar-track {
+.auto_a48086::-webkit-scrollbar-track {
     background-size: 200vh;
     background-image: -webkit-gradient(linear,left top,left bottom,from(rgb(var(--bg-overlay-color)/.4)),to(rgb(var(--bg-overlay-color)/.4))),var(--custom-theme-background);
     background-image: linear-gradient(rgb(var(--bg-overlay-color)/.4),rgb(var(--bg-overlay-color)/.4)),var(--custom-theme-background);
@@ -465,8 +401,7 @@ export function gradientBase(accentColor?: string, discordSaturation = false) {
     --bg-overlay-chat: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-chat)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-chat))) fixed 0 0/cover,var(--custom-theme-background) fixed 0 0/cover;
     --bg-overlay-home: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home))) fixed 0 0/cover,var(--custom-theme-background) fixed 0 0/cover;
     --bg-overlay-home-card: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home-card)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-home-card))) fixed 0 0/cover,var(--custom-theme-background) fixed 0 0/cover;
-    --bg-overlay-app-frame: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-app-frame)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-app-frame))) fixed 0 0/cover,var(--custom-theme-background) fixed 0 0/cover;
-}`;
+    --bg-overlay-app-frame: linear-gradient(rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-app-frame)),rgb(var(--bg-overlay-color)/var(--bg-overlay-opacity-app-frame))) fixed 0 0/cover,var(--custom-theme-background) fixed 0 0/cover;`;
 }
 
 export function generateCss(primaryColor: string, secondaryColor: string, tertiaryColor: string, accentColor: string, tintedText: boolean, discordSaturation: boolean) {
@@ -507,32 +442,30 @@ export function generateCss(primaryColor: string, secondaryColor: string, tertia
     --primary-600-hsl: ${HexToHSL("#" + primaryColor)[0]} calc(var(--saturation-factor, 1)*${HexToHSL("#" + primaryColor)[1]}%) ${HexToHSL("#" + primaryColor)[2]}%;
     --primary-560-hsl: ${HexToHSL("#" + primaryColor)[0]} calc(var(--saturation-factor, 1)*${HexToHSL("#" + primaryColor)[1]}%) ${Math.min(HexToHSL("#" + primaryColor)[2] + 3.6, 100)}%;
     --primary-530-hsl: ${HexToHSL("#" + primaryColor)[0]} calc(var(--saturation-factor, 1)*${discordSaturation ? Math.round(((HexToHSL("#" + primaryColor)[1] / 100) * (100 + PrimarySatDiffs[530])) * 10) / 10 : HexToHSL("#" + primaryColor)[1]}%) ${Math.min(HexToHSL("#" + primaryColor)[2] + (3.6 * 2), 100)}%;
-    --primary-500-hsl: ${HexToHSL("#" + primaryColor)[0]} calc(var(--saturation-factor, 1)*${discordSaturation ? Math.round(((HexToHSL("#" + primaryColor)[1] / 100) * (100 + PrimarySatDiffs[500])) * 10) / 10 : HexToHSL("#" + primaryColor)[1]}%) ${Math.min(HexToHSL("#" + primaryColor)[2] + (3.6 * 3), 100)}%;
-    --interactive-muted: hsl(${HexToHSL("#" + primaryColor)[0]} 0% ${Math.min(HexToHSL("#" + primaryColor)[2] + (3.6 * 3), 100)}%);
-    ${tintedText ? `--primary-460-hsl: 0 calc(var(--saturation-factor, 1)*0%) 50%;
+    --primary-500-hsl: ${HexToHSL("#" + primaryColor)[0]} calc(var(--saturation-factor, 1)*${discordSaturation ? Math.round(((HexToHSL("#" + primaryColor)[1] / 100) * (100 + PrimarySatDiffs[500])) * 10) / 10 : HexToHSL("#" + primaryColor)[1]}%) ${Math.min(HexToHSL("#" + primaryColor)[2] + (3.6 * 3), 100)}%;${tintedText ? `\n    --primary-460-hsl: 0 calc(var(--saturation-factor, 1)*0%) 50%;
     --primary-430: ${HexToHSL("#" + secondaryColor)[0] === 0 ? "gray" : ((HexToHSL("#" + secondaryColor)[2] < 80) ? "hsl(" + HexToHSL("#" + secondaryColor)[0] + `, calc(var(--saturation-factor, 1)*${discordSaturation ? Math.round(((HexToHSL("#" + primaryColor)[1] / 100) * (100 + PrimarySatDiffs[430])) * 10) / 10 : HexToHSL("#" + primaryColor)[1]}%), 90%)` : "hsl(" + HexToHSL("#" + secondaryColor)[0] + ", calc(var(--saturation-factor, 1)*100%), 20%)")};
     --primary-400: ${HexToHSL("#" + secondaryColor)[0] === 0 ? "gray" : ((HexToHSL("#" + secondaryColor)[2] < 80) ? "hsl(" + HexToHSL("#" + secondaryColor)[0] + `, calc(var(--saturation-factor, 1)*${discordSaturation ? Math.round(((HexToHSL("#" + primaryColor)[1] / 100) * (100 + PrimarySatDiffs[400])) * 10) / 10 : HexToHSL("#" + primaryColor)[1]}%), 90%)` : "hsl(" + HexToHSL("#" + secondaryColor)[0] + ", calc(var(--saturation-factor, 1)*100%), 20%)")};
     --primary-360: ${HexToHSL("#" + secondaryColor)[0] === 0 ? "gray" : ((HexToHSL("#" + secondaryColor)[2] < 80) ? "hsl(" + HexToHSL("#" + secondaryColor)[0] + `, calc(var(--saturation-factor, 1)*${discordSaturation ? Math.round(((HexToHSL("#" + primaryColor)[1] / 100) * (100 + PrimarySatDiffs[360])) * 10) / 10 : HexToHSL("#" + primaryColor)[1]}%), 90%)` : "hsl(" + HexToHSL("#" + secondaryColor)[0] + ", calc(var(--saturation-factor, 1)*100%), 20%)")};` : ""}
 }
-.emptyPage_feb902,
-.scrollerContainer_dda72c,
-.container__03ec9,
-.header__71942 {
+.emptyPage__3e15d,
+.scrollerContainer_bf5dbd,
+.container__10dc7,
+.header__60bef {
     background-color: unset !important;
 }${(Math.round(HexToHSL("#" + primaryColor)[2]) > 80) ? `\n\n/*Primary*/
-.theme-dark .container_bd15da,
-.theme-dark .body__616e6,
-.theme-dark .toolbar__62fb5,
-.theme-dark .container_e1387b,
-.theme-dark .messageContent_abea64,
-.theme-dark .attachButtonPlus_fd0021,
-.theme-dark .username__0b0e7:not([style]),
-.theme-dark .children_cde9af,
-.theme-dark .buttonContainer__6de7e,
-.theme-dark .listItem__48528,
-.theme-dark .body__616e6 .caret__33d19,
-.theme-dark .body__616e6 .titleWrapper_d6133e > h1,
-.theme-dark .body__616e6 .icon_ae0b42 {
+.theme-dark .container__5c7e7,
+.theme-dark .body__83069,
+.theme-dark .toolbar__88c63,
+.theme-dark .container__18bf5,
+.theme-dark .messageContent__21e69,
+.theme-dark .attachButtonPlus_bf89ca,
+.theme-dark .username_d30d99:not([style]),
+.theme-dark .children__32014,
+.theme-dark .buttonContainer_dd4b62,
+.theme-dark .listItem_fa7b36,
+.theme-dark .body__83069 .caret__33d19,
+.theme-dark .body__83069 .titleWrapper__482dc > h1,
+.theme-dark .body__83069 .icon__4cb88 {
     --white-500: black !important;
     --interactive-normal: black !important;
     --text-normal: black !important;
@@ -541,29 +474,29 @@ export function generateCss(primaryColor: string, secondaryColor: string, tertia
     --header-secondary: black !important;
 }
 
-.theme-dark .contentRegionScroller__9ae20 :not(.mtk1,.mtk2,.mtk3,.mtk4,.mtk5,.mtk6,.mtk7,.mtk8,.mtk9,.monaco-editor .line-numbers) {
+.theme-dark .contentRegionScroller__86c79 :not(.mtk1,.mtk2,.mtk3,.mtk4,.mtk5,.mtk6,.mtk7,.mtk8,.mtk9,.monaco-editor .line-numbers) {
     --white-500: black !important;
 }
 
-.theme-dark .container__6b2e5,
-.theme-dark .container__03ec9,
-.theme-dark .header__71942 {
+.theme-dark .container__7590f,
+.theme-dark .container__10dc7,
+.theme-dark .header__60bef {
     background: transparent;
 }
 
-.theme-dark .container__26baa {
+.theme-dark .container__11d72 {
     --channel-icon: black;
 }
 
-.theme-dark .callContainer__1477d {
+.theme-dark .callContainer_cbde45 {
     --white-500: ${(HexToHSL("#" + tertiaryColor)[2] > 80) ? "black" : "white"} !important;
 }
 
-.theme-dark .channelTextArea_c2094b {
+.theme-dark .channelTextArea__2e60f {
     --text-normal: ${(HexToHSL("#" + primaryColor)[2] + 3.6 > 80) ? "black" : "white"};
 }
 
-.theme-dark .placeholder_dec8c7 {
+.theme-dark .placeholder_e68c63 {
     --channel-text-area-placeholder: ${(HexToHSL("#" + primaryColor)[2] + 3.6 > 80) ? "black" : "white"};
     opacity: .6;
 }
@@ -572,16 +505,16 @@ export function generateCss(primaryColor: string, secondaryColor: string, tertia
     background-color: black;
 }
 
-.theme-dark .root_a28985 > .header__5e5a6 > h1 {
+.theme-dark .root_a28985 > .header__6d5ea > h1 {
     color: black;
 }
 /*End Primary*/`: ""}${(HexToHSL("#" + secondaryColor)[2] > 80) ? `\n\n/*Secondary*/
-.theme-dark .wrapper__3c6d5 *,
-.theme-dark .sidebar_e031be *:not(.hasBanner__04337 *),
-.theme-dark .members__573eb *:not([style]),
-.theme-dark .sidebarRegionScroller__8113e *,
-.theme-dark .header__8e271,
-.theme-dark .lookFilled__950dd.colorPrimary_ebe632 {
+.theme-dark .wrapper__6e669 *,
+.theme-dark .sidebar_ded4b5 *:not(.hasBanner_e78601 *),
+.theme-dark .members__9f47b *:not([style]),
+.theme-dark .sidebarRegionScroller__1fa7e *,
+.theme-dark .header__9f6dc,
+.theme-dark .lookFilled__19298.colorPrimary__6ed40 {
     --white-500: black !important;
     --channels-default: black !important;
     --channel-icon: black !important;
@@ -590,36 +523,36 @@ export function generateCss(primaryColor: string, secondaryColor: string, tertia
     --interactive-active: var(--white-500);
 }
 
-.theme-dark .channelRow__538ef {
+.theme-dark .channelRow__96673 {
     background-color: var(--background-secondary);
 }
 
-.theme-dark .channelRow__538ef * {
+.theme-dark .channelRow__96673 * {
     --channel-icon: black;
 }
 
-.theme-dark #app-mount .activity_bafb94 {
+.theme-dark #app-mount .activity__3cbac {
     --channels-default: var(--white-500) !important;
 }
 
-.theme-dark .nameTag__77ab2 {
+.theme-dark .nameTag__0e320 {
     --header-primary: black !important;
     --header-secondary: ${HexToHSL("#" + secondaryColor)[0] === 0 ? "gray" : ((HexToHSL("#" + secondaryColor)[2] < 80) ? "hsl(" + HexToHSL("#" + secondaryColor)[0] + ", calc(var(--saturation-factor, 1)*100%), 90%)" : "hsl(" + HexToHSL("#" + secondaryColor)[0] + ", calc(var(--saturation-factor, 1)*100%), 20%)")} !important;
 }
 
-.theme-dark .bannerVisible_ef30fe .headerContent__6fcc7 {
+.theme-dark .bannerVisible__191f6 .headerContent_ee8727 {
     color: #fff;
 }
 
-.theme-dark .embedFull__14919 {
+.theme-dark .embedFull__8dc21 {
     --text-normal: black;
 }
 /*End Secondary*/`: ""}${HexToHSL("#" + tertiaryColor)[2] > 80 ? `\n\n/*Tertiary*/
-.theme-dark .winButton_f17fb6,
-.theme-dark .searchBar__310d8 *,
-.theme-dark .wordmarkWindows_ffbc5e,
-.theme-dark .searchBar__5a20a *,
-.theme-dark .searchBarComponent__8f95f {
+.theme-dark .winButton__88672,
+.theme-dark .searchBar_ff8800 *,
+.theme-dark .wordmarkWindows__05c46,
+.theme-dark .searchBar_e0c60b *,
+.theme-dark .searchBarComponent__22760 {
     --white-500: black !important;
 }
 
@@ -632,20 +565,20 @@ export function generateCss(primaryColor: string, secondaryColor: string, tertia
     --header-secondary: black !important;
 }
 
-.theme-dark .tooltip__7b090 {
+.theme-dark .tooltip__01384 {
     --text-normal: black !important;
 }
-.theme-dark .children_cde9af .icon_ae0b42 {
+.theme-dark .children__32014 .icon__4cb88 {
     color: var(--interactive-active) !important;
 }
 /*End Tertiary*/`: ""}${HexToHSL("#" + accentColor)[2] > 80 ? `\n\n/*Accent*/
-.selected_aded59 *,
-.selected_ae80f7 *,
-#app-mount .lookFilled__950dd.colorBrand__27d57:not(.buttonColor__7bad9),
-.colorDefault_e361cf.focused_dcafb9,
-.row__9e25f:hover,
+.selected__5250e *,
+.selected_f5ec8e *,
+#app-mount .lookFilled__19298.colorBrand_b2253e:not(.buttonColor_a6eb73),
+.colorDefault__0b482.focused__27621,
+.row__4daf2:hover,
 .colorwayInfoIcon,
-.checkmarkCircle_b1b1cc > circle {
+.checkmarkCircle__11b1b > circle {
     --white-500: black !important;
 }
 
@@ -698,22 +631,15 @@ export function getPreset(primaryColor?: string, secondaryColor?: string, tertia
     }
 
     function gradientType1(discordSaturation = false) {
-        return {
-            full: `${gradientBase(accentColor, discordSaturation)}
-            :root:root {
-                --custom-theme-background: linear-gradient(239.16deg, #${primaryColor} 10.39%, #${secondaryColor} 26.87%, #${tertiaryColor} 48.31%, hsl(${HexToHSL("#" + secondaryColor)[0]} calc(var(--saturation-factor, 1)*${HexToHSL("#" + secondaryColor)[1]}%) ${Math.min(HexToHSL("#" + secondaryColor)[2] + 3.6, 100)}%) 64.98%, #${primaryColor} 92.5%);
-            }`,
-            base: `239.16deg, #${primaryColor} 10.39%, #${secondaryColor} 26.87%, #${tertiaryColor} 48.31%, hsl(${HexToHSL("#" + secondaryColor)[0]} calc(var(--saturation-factor, 1)*${HexToHSL("#" + secondaryColor)[1]}%) ${Math.min(HexToHSL("#" + secondaryColor)[2] + 3.6, 100)}%) 64.98%, #${primaryColor} 92.5%`
-        };
+        return `${gradientBase(accentColor, discordSaturation)}
+    --custom-theme-background: linear-gradient(239.16deg, #${primaryColor} 10.39%, #${secondaryColor} 26.87%, #${tertiaryColor} 48.31%, hsl(${HexToHSL("#" + secondaryColor)[0]} calc(var(--saturation-factor, 1)*${HexToHSL("#" + secondaryColor)[1]}%) ${Math.min(HexToHSL("#" + secondaryColor)[2] + 3.6, 100)}%) 64.98%, #${primaryColor} 92.5%);
+}`;
     }
 
     function gradientType2(discordSaturation = false) {
-        return {
-            full: `${gradientBase(accentColor, discordSaturation)}
-        :root:root {
-            --custom-theme-background: linear-gradient(48.17deg, #${primaryColor} 11.21%, #${secondaryColor} 61.92%);
-        }`, base: `48.17deg, #${primaryColor} 11.21%, #${secondaryColor} 61.92%`
-        };
+        return `${gradientBase(accentColor, discordSaturation)}
+    --custom-theme-background: linear-gradient(48.17deg, #${primaryColor} 11.21%, #${secondaryColor} 61.92%);
+}`;
     }
 
     function hueRotation(discordSaturation = false) {
