@@ -24,6 +24,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   [D3SOX's plugins](https://github.com/D3SOX/vencord-userplugins)
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   Quest Completer ([by happyendermangit](https://github.com/Wumpus-University/QuestsCompleter)
+-   betterShopPreview ([by Tolga1452](https://github.com/Tolga1452/Vencord))
 
 ## Disclaimer
 
