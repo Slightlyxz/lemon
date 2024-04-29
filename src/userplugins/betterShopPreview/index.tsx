@@ -61,16 +61,17 @@ const PreviewToggle = () => {
 };
 
 export default definePlugin({
-    name: "Better Shop Preview",
+    name: "BetterShopPreview",
     description: "Uses your avatar for avatar decoration previews in the Discord Shop.",
-    authors: [(Devs.Tolgchu ?? { name: "✨Tolgchu✨", id: 329671025312923648n })],
+    authors: [Devs.Tolgchu],
     settings,
     patches: [
         {
-            find: "}),(0,l.jsx)(T.default.Title,{className:en.title,children:er.default.Messages.COLLECTIBLES_SHOP})]",
+            // this can use regex, will do later.
+            find: "}),(0,l.jsx)(T.default.Title,{className:ei.title,children:er.default.Messages.COLLECTIBLES_SHOP})]",
             replacement: [{
-                match: "{className:en.title,children:er.default.Messages.COLLECTIBLES_SHOP}",
-                replace: "{className:en.title,children:[er.default.Messages.COLLECTIBLES_SHOP,$self.PreviewToggle()]}"
+                match: "{className:ei.title,children:er.default.Messages.COLLECTIBLES_SHOP}",
+                replace: "{className:ei.title,children:[er.default.Messages.COLLECTIBLES_SHOP,$self.PreviewToggle()]}"
             }]
         }
     ],
