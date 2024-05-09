@@ -17,7 +17,6 @@ import {
     Button,
     Clipboard,
     Forms,
-    Heading,
     SettingsRouter,
     Toasts
 } from "@webpack/common";
