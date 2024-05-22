@@ -9,7 +9,6 @@ import definePlugin from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { Menu } from "@webpack/common";
 import { Channel } from "discord-types/general";
-import type React from "react";
 
 const JumpIcon = () => {
     return (
