@@ -71,6 +71,7 @@ export default definePlugin({
 
     contextMenus: {
         "user-profile-actions": UserContext,
-        "user-context": UserContext
+        "user-context": UserContext,
+        "user-profile-overflow-menu": UserContext
     },
 });
