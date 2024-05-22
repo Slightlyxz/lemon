@@ -70,6 +70,7 @@ export default definePlugin({
     description: "Adds a 'Copy Profile Theme' option to the user context menu to copy the hex codes from a user's profile theme",
 
     contextMenus: {
-        "user-profile-actions": UserContext
+        "user-profile-actions": UserContext,
+        "user-context": UserContext
     },
 });
