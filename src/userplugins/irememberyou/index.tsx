@@ -1,41 +1,27 @@
 /*
- * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2022 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * source: 
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import definePlugin from "@utils/types";
-import { User, Guild } from "discord-types/general";
-import { openUserProfile } from "@utils/discord";
+import { DataStore } from "@api/index";
 import { addPreSendListener, removePreSendListener } from "@api/MessageEvents";
-import {
-  MessageStore,
-  GuildStore,
-  ChannelStore,
-  UserStore,
-  GuildMemberStore,
-  React,
-} from "@webpack/common";
-import { DataStore, Notifications } from "@api/index";
-import { Avatar, Text, Flex, Clickable, TextInput, Tooltip, TextArea, Button } from "@webpack/common";
-
+import { ExpandableHeader } from "@components/ExpandableHeader";
 import { Heart } from "@components/Heart";
-import ExpandableHeader from "@components/ExpandableHeader";
-
+import { Devs } from "@utils/constants";
+import { openUserProfile } from "@utils/discord";
 import * as Modal from "@utils/modal";
+import definePlugin from "@utils/types";
+import {
+  Avatar, Button, ChannelStore,
+  Clickable, Flex, GuildMemberStore,
+  GuildStore,
+  MessageStore,
+  React,
+  Text, TextArea, TextInput, Tooltip,
+  UserStore
+} from "@webpack/common";
+import { Guild, User } from "discord-types/general";
 
 interface IUserExtra {
   isOwner?: boolean;
@@ -58,7 +44,7 @@ interface GroupData {
 
 const constants = {
   pluginLabel: "IRememberYou",
-  pluginId: "iremeberyou",
+  pluginId: "irememberyou",
 
   DM: "dm",
   DataUIDescription:
@@ -106,7 +92,7 @@ class Data {
       );
 
       const users = ids
-        .map((id) => UserStore.getUser(id))
+        .map(id => UserStore.getUser(id))
         .filter(Boolean);
       for (const user of users) {
         target.add({ user, source: guild, extra: { updatedAt: now } });
@@ -242,7 +228,7 @@ class DataUI {
   }
 
   renderUsersCollectionRows(key: string, users: IStorageUser[]) {
-    const usersElements = users.map((user) => this.renderUserRow(user));
+    const usersElements = users.map(user => this.renderUserRow(user));
 
 
     return <aside key={key} >
@@ -276,7 +262,7 @@ class DataUI {
         <Flex style={{ gap: "0.5em", alignItems: "center", margin: 0, wordBreak: "break-word" }}>
           {this.renderUserAvatar(user)}
           <Tooltip text={this.userTooltipText(user)}>
-            {(props) =>
+            {props =>
               <Text {...props} selectable>{user.tag} {allowExtra.owner && user.extra?.isOwner && `(${constants.marks.Owner})`}</Text>
             }
           </Tooltip>
@@ -291,7 +277,7 @@ class DataUI {
     return <footer>
       <Flex style={{ gap: "1.5em", marginTop: "2em" }}>
 
-        <Clickable onClick={() => Modal.openModal((props) => <Modal.ModalRoot size={Modal.ModalSize.LARGE} fullscreenOnMobile={true} {...props}>
+        <Clickable onClick={() => Modal.openModal(props => <Modal.ModalRoot size={Modal.ModalSize.LARGE} fullscreenOnMobile={true} {...props}>
           <Modal.ModalHeader separator={false}>
             <Text
               color="header-primary"
@@ -341,7 +327,7 @@ class DataUI {
     const list = [...map.values()];
 
     return <section style={{ paddingBlock: "1em" }}>
-      <TextInput placeholder="Filter by tag, username" name="Filter" onChange={(value) => setState(value)} />
+      <TextInput placeholder="Filter by tag, username" name="Filter" onChange={value => setState(value)} />
       {current &&
         <Flex style={{ flexDirection: "column", gap: "0.5em", paddingTop: "1em" }}>
           {list.filter(user => user.tag.includes(current) || user.username.includes(current))
@@ -358,9 +344,9 @@ class DataUI {
   toElement(usersCollection: Data["usersCollection"]) {
     return (
       /*
-      > ![Important]
-      > Let me know a more promising color, instead of #ffffff
-      */
+    > ![Important]
+    > Let me know a more promising color, instead of #ffffff
+    */
       <main style={{ color: "#ffffff", paddingBottom: "4em" }}>
         <Text tag="h1" variant="heading-lg/bold">
           {constants.pluginLabel}{" "}
@@ -382,9 +368,8 @@ class DataUI {
 }
 
 export default definePlugin({
-  name: constants.pluginLabel,
-  description:
-    "Locally saves everyone you've been communicating with (including servers), in case of lose",
+  name: "IRememberYou",
+  description: "Locally saves everyone you've been communicating with (including servers), in case of lose",
   authors: [
     {
       name: "zoodogood",
@@ -392,7 +377,6 @@ export default definePlugin({
     },
   ],
   dependencies: ["MessageEventsAPI"],
-
   patches: [],
 
   async start() {
@@ -408,7 +392,7 @@ export default definePlugin({
     data.storageAutoSaveProtocol();
 
     // @ts-ignore
-    Vencord.Plugins.plugins.Settings.customSections.push((ID) => ({
+    Vencord.Plugins.plugins.Settings.customSections.push(ID => ({
       section: `${constants.pluginId}.display-data`,
       label: constants.pluginLabel,
       element: () => ui.toElement(data.usersCollection),
