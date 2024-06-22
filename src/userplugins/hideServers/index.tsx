@@ -17,7 +17,7 @@ import {
 } from "@api/ServerList";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Menu, React } from "@webpack/common";
+import { GuildStore, Menu, React } from "@webpack/common";
 import { Guild } from "discord-types/general";
 
 import HiddenServersButton from "./components/HiddenServersButton";
@@ -62,8 +62,10 @@ const Patch: NavContextMenuPatchCallback = (
 };
 
 function serverListFunction() {
+    // if youve left a server dont show it in the count
+    const actuallyHidden = Array.from(hiddenGuilds).filter(x => GuildStore.getGuild(x)).length;
     return <HiddenServersButton
-        count={hiddenGuilds.size}
+        count={actuallyHidden}
         onClick={() => openHiddenServersModal({ servers: hiddenGuildsDetail() })}
     ></HiddenServersButton>;
 }
@@ -94,7 +96,7 @@ export default definePlugin({
             find: '("guildsnav")',
             replacement: [
                 {
-                    match: /(?<=Messages\.SERVERS.+?)(\i)(\.map.{0,50}?case \i\.GuildsNodeType\.FOLDER)/,
+                    match: /(?<=Messages\.SERVERS.+?)(\i)(\.map.{0,50}?case \i\.\i\.FOLDER)/,
                     replace: "$1.flatMap($self.filterGuilds)$2",
                 },
                 {
