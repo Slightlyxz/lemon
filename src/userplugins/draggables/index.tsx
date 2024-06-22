@@ -43,7 +43,7 @@ type EmojiDescriptor = {
 
 export default definePlugin({
     name: "DraggableEmotes",
-    authors: [Devs.PWall],
+    authors: [{ id: 0n, name: "Pwall" }],
     description: "Adds the ability to change the order of your favourite emotes",
     startAt: StartAt.WebpackReady,
     patches: [
