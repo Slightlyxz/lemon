@@ -22,7 +22,7 @@ const enum MessageTypes {
 }
 
 export default definePlugin({
-    authors: [{ id: 279266228151779329n, name: "Hen" }],
+    authors: [Devs.hen],
     name: "MessageColors",
     description: "Displays color codes like #FF0042 inside of messages",
     settings,

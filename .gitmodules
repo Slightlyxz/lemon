@@ -10,6 +10,3 @@
 [submodule "discordColorways"]
 	path = src/userplugins/discordColorways
 	url = https://github.com/DaBluLite/DiscordColorways-VencordUserplugin
-[submodule "D3SOX-userplugins"]
-	path = src/userplugins/D3SOX-userplugins
-	url = https://github.com/D3SOX/vencord-userplugins
