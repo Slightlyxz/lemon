@@ -21,6 +21,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   HideServers ([by bepvte](https://github.com/bepvte/Vencord/tree/server-hider))
 -   Message Colors ([by henmalib](https://github.com/Vendicated/Vencord/pull/2521))
+-   Better Bios ([by sunnie](https://gist.github.com/sunnniee/1d3e96cfb091dc096b32c839cc0faa09))
 
 ## Disclaimer
 
