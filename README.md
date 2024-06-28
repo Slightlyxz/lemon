@@ -19,9 +19,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   vc-message-logger-enhanced ([by Syncxv](https://github.com/Syncxv/vc-message-logger-enhanced))
 -   [D3SOX's plugins](https://github.com/D3SOX/vencord-userplugins)
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
--   Quest Completer ([by happyendermangit](https://github.com/Wumpus-University/QuestsCompleter))
 -   HideServers ([by bepvte](https://github.com/bepvte/Vencord/tree/server-hider))
--   Drag favorite emotes ([by pwall2222](https://github.com/Vendicated/Vencord/pull/2555))
 -   Message Colors ([by henmalib](https://github.com/Vendicated/Vencord/pull/2521))
 
 ## Disclaimer
