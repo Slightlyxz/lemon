@@ -13,7 +13,7 @@ import { React } from "@webpack/common";
 import { ColorType, regex, RenderType, settings } from "./constants";
 
 const source = regex.map(r => r.reg.source).join("|");
-const matchAllRegExp = new RegExp(`^(${source})`);
+const matchAllRegExp = new RegExp(`^(${source})`, "i");
 
 interface ParsedColorInfo {
     type: "color";
@@ -21,6 +21,8 @@ interface ParsedColorInfo {
     colorType: ColorType;
     text: string;
 }
+
+const requiredFirstCharacters = ["r", "h", "#"].flatMap(v => [v, v.toUpperCase()]);
 
 export default definePlugin({
     authors: [Devs.hen],
@@ -32,6 +34,7 @@ export default definePlugin({
         // Like bolding, spoilers, mentions, etc
         {
             find: "roleMention:{order:",
+            group: true,
             replacement: {
                 match: /roleMention:\{order:(\i\.\i\.order)/,
                 replace: "color:$self.getColor($1),$&"
@@ -41,16 +44,19 @@ export default definePlugin({
         // Without it discord will try to pass a string without those to color rule
         {
             find: ".defaultRules.text,match:",
+            group: true,
             replacement: {
                 // $)/)
                 match: /\$\)\/\)}/,
-                replace: "hsl\\(|rgb\\(|$&"
+                // hsl(|rgb(|$&
+                replace: requiredFirstCharacters.join("|") + "|$&"
             }
         },
         // Discord just requires it to be here
         // Or it explodes (bad)
         {
             find: "Unknown markdown rule:",
+            group: true,
             replacement: {
                 match: /roleMention:{type:/,
                 replace: "color:{type:\"inlineObject\"},$&",
@@ -61,7 +67,7 @@ export default definePlugin({
         return {
             order,
             // Don't even try to match if the message chunk doesn't start with...
-            requiredFirstCharacters: ["hsl", "rgb", "#"],
+            requiredFirstCharacters,
             // Match -> Parse -> React
             // Result of previous action is dropped as a first argument of the next one
             match(content: string) {
@@ -99,7 +105,7 @@ export default definePlugin({
             // react(args: ReturnType<typeof this.parse>)
             react({ text, colorType, color }: ParsedColorInfo) {
                 if (settings.store.renderType === RenderType.FOREGROUND) {
-                    return <><span style={{ color: color }}>{text}</span></>;
+                    return <span style={{ color: color }}>{text}</span>;
                 }
                 const styles = {
                     "--color": color

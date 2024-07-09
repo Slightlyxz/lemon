@@ -1,20 +1,8 @@
 /*
- * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import "./styles.css";
 
@@ -58,6 +46,12 @@ const settings = definePluginSettings({
         default: true,
         restartNeeded: false,
     },
+    showAppDescriptions: {
+        type: OptionType.BOOLEAN,
+        description: "Show application descriptions in the activity tooltip",
+        default: true,
+        restartNeeded: false,
+    },
     divider: {
         type: OptionType.COMPONENT,
         description: "",
@@ -71,15 +65,9 @@ const settings = definePluginSettings({
             }}/>
         ),
     },
-    profileSidebar: {
-        type: OptionType.BOOLEAN,
-        description: "Show all activities in the profile sidebar",
-        default: true,
-        restartNeeded: true,
-    },
     userPopout: {
         type: OptionType.BOOLEAN,
-        description: "Show all activities in the user popout",
+        description: "Show all activities in the profile popout/sidebar",
         default: true,
         restartNeeded: true,
     },
@@ -117,13 +105,25 @@ const TimeBar = findComponentByCodeLazy<{
     className: string;
 }>("isSingleLine");
 
+enum ActivityViewType {
+    USER_POPOUT = "UserPopout",
+    USER_POPOUT_V2 = "UserPopoutV2",
+    ACTIVITY_FEED = "ActivityFeed",
+    PROFILE = "Profile",
+    PROFILE_V2 = "ProfileV2",
+    STREAM_PREVIEW = "StreamPreview",
+    VOICE_CHANNEL = "VoiceChannel",
+    SIMPLIFIED_PROFILE = "SimplifiedProfile",
+    BITE_SIZE_POPOUT = "BiteSizePopout"
+}
+
 const ActivityView = findComponentByCodeLazy<{
     activity: Activity | null;
     user: User;
-    guild: Guild;
-    channelId: string;
-    onClose: () => void;
-        }>("onOpenGameProfile:");
+    activityGuild: Guild;
+    type: ActivityViewType;
+    showChannelDetails: boolean;
+        }>(",onOpenGameProfileModal:");
 
 // if discord one day decides to change their icon this needs to be updated
 const DefaultActivityIcon = findComponentByCodeLazy("M6,7 L2,7 L2,6 L6,6 L6,7 Z M8,5 L2,5 L2,4 L8,4 L8,5 Z M8,3 L2,3 L2,2 L8,2 L8,3 Z M8.88888889,0 L1.11111111,0 C0.494444444,0 0,0.494444444 0,1.11111111 L0,8.88888889 C0,9.50253861 0.497461389,10 1.11111111,10 L8.88888889,10 C9.50253861,10 10,9.50253861 10,8.88888889 L10,1.11111111 C10,0.494444444 9.5,0 8.88888889,0 Z");
@@ -146,7 +146,7 @@ function getActivityImage(activity: Activity, application?: Application): string
         const image = activity.assets?.large_image;
         // image needs to replace 'twitch:'
         if (image?.startsWith("twitch:")) {
-            // twitch images are always https://static-cdn.jtvnw.net/previews-ttv/live_user_USERNAME-RESOLTUON.jpg
+            // twitch images are always https://static-cdn.jtvnw.net/previews-ttv/live_user_USERNAME-RESOLUTION.jpg
             return `${image.replace("twitch:", "https://static-cdn.jtvnw.net/previews-ttv/live_user_")}-108x60.jpg`;
         }
     }
@@ -200,6 +200,7 @@ const ActivityTooltip = ({ activity, application, user }: Readonly<{ activity: A
                 <div className={cl("activity-details")}>
                     <div>{activity.details}</div>
                     <div>{activity.state}</div>
+                    {settings.store.showAppDescriptions && application?.description && <div>{application.description}</div>}
                     {!timestamps && startTime &&
                         <div className={cl("activity-time-bar")}>
                             {formatElapsedTime(moment(startTime), moment())}
@@ -221,8 +222,8 @@ function getApplicationIcons(activities: Activity[], preferSmall = false) {
         if (!application_id && !platform) {
             continue;
         }
-        if (assets) {
 
+        if (assets) {
             const addImage = (image: string, alt: string) => {
                 if (image.startsWith("mp:")) {
                     const discordMediaLink = `https://media.discordapp.net/${image.replace(/mp:/, "")}`;
@@ -307,10 +308,6 @@ export default definePlugin({
     description: "Shows activity icons in the member list and allows showing all activities",
     authors: [
         Devs.D3SOX,
-        {
-            name: "dropped#0001",
-            id: 328165170536775680n,
-        },
         Devs.Arjix,
         Devs.AutumnVN
     ],
@@ -390,7 +387,7 @@ export default definePlugin({
         return null;
     },
 
-    showAllActivitiesComponent({ activity, user, guild, channelId, onClose }: { activity: Activity; user: User, guild: Guild, channelId: string, onClose: () => void; }) {
+    showAllActivitiesComponent({ activity, user, activityGuild }: Readonly<{ activity: Activity; user: User; activityGuild: Guild; }>) {
         const [currentActivity, setCurrentActivity] = React.useState<Activity | null>(
             activity?.type !== 4 ? activity! : null
         );
@@ -407,20 +404,19 @@ export default definePlugin({
 
             if (!currentActivity || !activities.includes(currentActivity))
                 setCurrentActivity(activities[0]);
-
         }, [activities]);
 
         if (!activities.length) return null;
 
         if (settings.store.allActivitiesStyle === "carousel") {
             return (
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div className={cl("temp-fix")} style={{ display: "flex", flexDirection: "column" }}>
                     <ActivityView
+                        type={ActivityViewType.USER_POPOUT_V2}
                         activity={currentActivity}
                         user={user}
-                        guild={guild}
-                        channelId={channelId}
-                        onClose={onClose}/>
+                        activityGuild={activityGuild}
+                        showChannelDetails={true}/>
                     <div
                         className={cl("controls")}
                         style={{
@@ -481,6 +477,7 @@ export default definePlugin({
         } else {
             return (
                 <div
+                    className={cl("temp-fix")}
                     style={{
                         display: "flex",
                         flexDirection: "column",
@@ -490,11 +487,11 @@ export default definePlugin({
                     {activities.map((activity, index) => (
                         <ActivityView
                             key={index}
+                            type={ActivityViewType.USER_POPOUT_V2}
                             activity={activity}
                             user={user}
-                            guild={guild}
-                            channelId={channelId}
-                            onClose={onClose}
+                            activityGuild={activityGuild}
+                            showChannelDetails={true}
                         />
                     ))}
                 </div>
@@ -513,22 +510,13 @@ export default definePlugin({
             predicate: () => settings.store.memberList,
         },
         {
-            // Show all activities in the profile panel
-            find: "Profile Panel: user cannot be undefined",
+            // Show all activities in the user popout/sidebar
+            find: '"BiteSizeProfileActivitySection"',
             replacement: {
-                match: /(?<=\(0,\i\.jsx\)\()\i\.\i(?=,{activity:.+?,user:\i,channelId:\i.id,)/,
-                replace: "$self.showAllActivitiesComponent"
-            },
-            predicate: () => settings.store.profileSidebar,
-        },
-        {
-            // Show all activities in the user popout
-            find: "customStatusSection,",
-            replacement: {
-                match: /(?<=\(0,\i\.jsx\)\()\i\.\i(?=,{activity:\i,user:\i,guild:\i,channelId:\i,onClose:\i,)/,
+                match: /(?<=\(0,\i\.jsx\)\()\i\.\i(?=,{type:\i.\i.BITE_SIZE_POPOUT,activity:\i,className:\i\.activity,source:\i,user:\i)/,
                 replace: "$self.showAllActivitiesComponent"
             },
             predicate: () => settings.store.userPopout
-        }
+        },
     ],
 });

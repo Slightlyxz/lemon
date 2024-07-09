@@ -10,3 +10,30 @@
 [submodule "discordColorways"]
 	path = src/userplugins/discordColorways
 	url = https://github.com/DaBluLite/DiscordColorways-VencordUserplugin
+[submodule "BetterActivities"]
+	path = src/userplugins/BetterActivities
+	url = https://github.com/D3SOX/vc-betterActivities
+[submodule "BlockKrisp"]
+	path = src/userplugins/BlockKrisp
+	url = https://github.com/D3SOX/vc-blockKrisp
+[submodule "FollowUser"]
+	path = src/userplugins/FollowUser
+	url = https://github.com/D3SOX/vc-followUser
+[submodule "IgnoreTerms"]
+	path = src/userplugins/IgnoreTerms
+	url = https://github.com/D3SOX/vc-ignoreTerms
+[submodule "MediaPlaybackSpeed"]
+	path = src/userplugins/MediaPlaybackSpeed
+	url = https://github.com/D3SOX/vc-mediaPlaybackSpeed
+[submodule "NotifyUserChanges"]
+	path = src/userplugins/NotifyUserChanges
+	url = https://github.com/D3SOX/vc-notifyUserChanges
+[submodule "ServerProfilesToolbox"]
+	path = src/userplugins/ServerProfilesToolbox
+	url = https://github.com/D3SOX/vc-serverProfilesToolbox
+[submodule "SilentTyping"]
+	path = src/userplugins/SilentTyping
+	url = https://github.com/D3SOX/vc-silentTypingEnhanced
+[submodule "VoiceChatUtilities"]
+	path = src/userplugins/VoiceChatUtilities
+	url = https://github.com/D3SOX/vc-voiceChatUtilities
