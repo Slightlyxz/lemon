@@ -37,3 +37,30 @@
 [submodule "VoiceChatUtilities"]
 	path = src/userplugins/VoiceChatUtilities
 	url = https://github.com/D3SOX/vc-voiceChatUtilities
+[submodule "src/userplugins/BetterActivities"]
+	path = src/userplugins/BetterActivities
+	url = https://github.com/D3SOX/vc-betterActivities
+[submodule "src/userplugins/BlockKrisp"]
+	path = src/userplugins/BlockKrisp
+	url = https://github.com/D3SOX/vc-blockKrisp
+[submodule "src/userplugins/FollowUser"]
+	path = src/userplugins/FollowUser
+	url = https://github.com/D3SOX/vc-followUser
+[submodule "src/userplugins/IgnoreTerms"]
+	path = src/userplugins/IgnoreTerms
+	url = https://github.com/D3SOX/vc-ignoreTerms
+[submodule "src/userplugins/MediaPlaybackSpeed"]
+	path = src/userplugins/MediaPlaybackSpeed
+	url = https://github.com/D3SOX/vc-mediaPlaybackSpeed
+[submodule "src/userplugins/NotifyUserChanges"]
+	path = src/userplugins/NotifyUserChanges
+	url = https://github.com/D3SOX/vc-notifyUserChanges
+[submodule "src/userplugins/ServerProfilesToolbox"]
+	path = src/userplugins/ServerProfilesToolbox
+	url = https://github.com/D3SOX/vc-serverProfilesToolbox
+[submodule "src/userplugins/SilentTyping"]
+	path = src/userplugins/SilentTyping
+	url = https://github.com/D3SOX/vc-silentTypingEnhanced
+[submodule "src/userplugins/VoiceChatUtilities"]
+	path = src/userplugins/VoiceChatUtilities
+	url = https://github.com/D3SOX/vc-voiceChatUtilities
