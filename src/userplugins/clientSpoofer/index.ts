@@ -21,7 +21,11 @@ const settings = definePluginSettings({
             {
                 label: "Discord Mobile",
                 value: "Discord Android"
-            }
+            },
+            {
+                label: "Discord Console",
+                value: "Discord Embedded"
+            },
         ]
     }
 });
