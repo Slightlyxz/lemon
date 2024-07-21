@@ -37,3 +37,6 @@
 [submodule "VoiceChatUtilities"]
 	path = src/userplugins/VoiceChatUtilities
 	url = https://github.com/D3SOX/vc-voiceChatUtilities
+[submodule "LoginWithQR"]
+	path = src/userplugins/loginwithqr
+	url = https://github.com/nexpid/LoginWithQR
