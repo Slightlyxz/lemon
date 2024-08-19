@@ -6,14 +6,14 @@
 
 import "./styles.css";
 
+import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
-import definePlugin from "@utils/types";
+import definePlugin, { StartAt } from "@utils/types";
 import { React } from "@webpack/common";
+import type { ReactElement } from "react";
 
-import { ColorType, regex, RenderType, settings } from "./constants";
+import { BlockDisplayType, ColorType, regex, RenderType, replaceRegexp, settings } from "./constants";
 
-const source = regex.map(r => r.reg.source).join("|");
-const matchAllRegExp = new RegExp(`^(${source})`, "i");
 
 interface ParsedColorInfo {
     type: "color";
@@ -63,7 +63,19 @@ export default definePlugin({
             }
         },
     ],
+    start() {
+        const amount = settings.store.enableShortHexCodes ? "{1,2}" : "{2}";
+        regex.push({
+            reg: new RegExp("#(?:[0-9a-fA-F]{3})" + amount, "g"),
+            type: ColorType.HEX
+        });
+    },
+    // Needed to load all regex before patching
+    startAt: StartAt.Init,
     getColor(order: number) {
+        const source = regex.map(r => r.reg.source).join("|");
+        const matchAllRegExp = new RegExp(`^(${source})`, "i");
+
         return {
             order,
             // Don't even try to match if the message chunk doesn't start with...
@@ -102,8 +114,7 @@ export default definePlugin({
                     };
                 }
             },
-            // react(args: ReturnType<typeof this.parse>)
-            react({ text, colorType, color }: ParsedColorInfo) {
+            react: ErrorBoundary.wrap(({ text, colorType, color }: ParsedColorInfo) => {
                 if (settings.store.renderType === RenderType.FOREGROUND) {
                     return <span style={{ color: color }}>{text}</span>;
                 }
@@ -117,8 +128,33 @@ export default definePlugin({
                     return <span className={className} style={styles}>{text}</span>;
                 }
 
-                return <>{text}<span className="vc-color-block" style={styles}></span></>;
-            }
+                // Only block display left
+                const margin = "2px";
+
+                switch (settings.store.blockView) {
+                    case BlockDisplayType.LEFT:
+                        styles.marginRight = margin;
+                        return <><span className="vc-color-block" style={styles} />{text}</>;
+
+                    case BlockDisplayType.RIGHT:
+                        styles.marginLeft = margin;
+                        return <>{text}<span className="vc-color-block" style={styles} /></>;
+
+                    case BlockDisplayType.BOTH:
+                        styles.marginLeft = margin;
+                        styles.marginRight = margin;
+                        return <>
+                            <span className="vc-color-block" style={styles} />
+                            {text}
+                            <span className="vc-color-block" style={styles} />
+                        </>;
+                }
+            }, {
+                fallback: data => {
+                    const child = data.children as ReactElement<any>;
+                    return <>{child.props?.text}</>;
+                }
+            })
         };
     }
 });
@@ -128,24 +164,32 @@ const calcRGBLightness = (r: number, g: number, b: number) => {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 const isColorDark = (color: string, type: ColorType): boolean => {
+    const border = 115;
     switch (type) {
+        case ColorType.RGBA:
         case ColorType.RGB: {
             const match = color.match(/\d+/g)!;
             const lightness = calcRGBLightness(+match[0], +match[1], +match[2]);
-            return lightness < 140;
+            return lightness < border;
         }
         case ColorType.HEX: {
-            var rgb = parseInt(color.substring(1), 16);
+            color = color.substring(1);
+            if (color.length === 3) {
+                color = color.split("").flatMap(v => [v, v]).join("");
+            }
+
+            const rgb = parseInt(color, 16);
             const r = (rgb >> 16) & 0xff;
             const g = (rgb >> 8) & 0xff;
             const b = (rgb >> 0) & 0xff;
+
             const lightness = calcRGBLightness(r, g, b);
-            return lightness < 140;
+            return lightness < border;
         }
         case ColorType.HSL: {
             const match = color.match(/\d+/g)!;
             const lightness = +match[2];
-            return lightness < 50;
+            return lightness < (border / 255 * 100);
         }
     }
 };
@@ -154,15 +198,20 @@ const getColorType = (color: string): ColorType => {
     color = color.toLowerCase().trim();
     if (color.startsWith("#")) return ColorType.HEX;
     if (color.startsWith("hsl")) return ColorType.HSL;
+    if (color.startsWith("rgba")) return ColorType.RGBA;
     if (color.startsWith("rgb")) return ColorType.RGB;
 
     throw new Error(`Can't resolve color type of ${color}`);
 };
 
 function parseColor(str: string, type: ColorType): string {
-    str = str.toLowerCase().trim();
+    str = str.toLowerCase().trim().replaceAll(/(\s|,)+/g, " ");
     switch (type) {
         case ColorType.RGB:
+            return str;
+        case ColorType.RGBA:
+            if (!str.includes("/"))
+                return str.replaceAll(replaceRegexp(/\f(?=\s*?\))/.source), "/$&");
             return str;
         case ColorType.HEX:
             return str[0] === "#" ? str : `#${str}`;
