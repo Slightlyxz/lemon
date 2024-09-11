@@ -5,10 +5,8 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 ## Added the following plugins to the userplugins folder:
 
 -   Soundboard Logger ([by ImpishMoxxie](https://github.com/ImpishMoxxie/SoundBoardLogger))
--   Timezones ([by mantikafask](https://github.com/Vendicated/Vencord/pull/376))
 -   clientSpoofer ([by ImLvna](https://codeberg.org/Lunaa/vencord/src/branch/clientSpoofer))
 -   copyProfileThemes ([by KannaDev](https://github.com/Vendicated/Vencord/pull/1452))
--   customScreenShare ([by KawaiianPizza](https://github.com/Vendicated/Vencord/pull/2094))
 -   customSounds ([by TheKodeToad](https://github.com/Vendicated/Vencord/pull/1765))
 -   discordColorways ([by DaBluLite](https://github.com/Vendicated/Vencord/pull/1448))
 -   BypassDND ([by Inbestigator](https://github.com/Vendicated/Vencord/pull/2239))
@@ -21,7 +19,6 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   HideServers ([by bepvte](https://github.com/bepvte/Vencord/tree/server-hider))
 -   Message Colors ([by henmalib](https://github.com/Vendicated/Vencord/pull/2521))
--   Better Bios ([by sunnie](https://gist.github.com/sunnniee/1d3e96cfb091dc096b32c839cc0faa09))
 
 ## Disclaimer
 
