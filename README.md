@@ -2,7 +2,12 @@
 
 Fork of [Vencord](https://github.com/Vendicated/Vencord).
 
-## Added the following plugins to the userplugins folder:
+Don't use this, lemon was mainly made for testing.
+If you seek a proper third-party plugin experience, check out [Equicord](https://github.com/Equicord/Equicord).
+
+## Third-party plugins
+<details>
+<summary>Included plugins</summary>
 
 -   Soundboard Logger ([by ImpishMoxxie](https://github.com/ImpishMoxxie/SoundBoardLogger))
 -   clientSpoofer ([by ImLvna](https://codeberg.org/Lunaa/vencord/src/branch/clientSpoofer))
@@ -19,6 +24,7 @@ Fork of [Vencord](https://github.com/Vendicated/Vencord).
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   HideServers ([by bepvte](https://github.com/bepvte/Vencord/tree/server-hider))
 -   Message Colors ([by henmalib](https://github.com/Vendicated/Vencord/pull/2521))
+</details>
 
 ## Disclaimer
 
