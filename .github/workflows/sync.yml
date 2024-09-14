@@ -2,7 +2,7 @@ name: Sync Vencord
 
 env:
     UPSTREAM_URL: "https://github.com/Vendicated/Vencord.git"
-    WORKFLOW_TOKEN: ${{ secrets.PAT_TOKEN }}
+    WORKFLOW_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     UPSTREAM_BRANCH: "main"
     DOWNSTREAM_BRANCH: ""
 
