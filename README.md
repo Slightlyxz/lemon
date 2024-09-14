@@ -2,6 +2,8 @@
 
 Fork of [Vencord](https://github.com/Vendicated/Vencord).
 
+The main purpose of this repo is for me to learn and mess around with things.
+
 Don't use this, lemon was mainly made for testing.
 If you seek a proper third-party plugin experience, check out [Equicord](https://github.com/Equicord/Equicord).
 
