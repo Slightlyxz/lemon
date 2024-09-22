@@ -8,6 +8,7 @@ Don't use this, lemon was mainly made for testing.
 If you seek a proper third-party plugin experience, check out [Equicord](https://github.com/Equicord/Equicord).
 
 ## Third-party plugins
+
 <details>
 <summary>Included plugins</summary>
 
@@ -26,6 +27,7 @@ If you seek a proper third-party plugin experience, check out [Equicord](https:/
 -   [Kyuuhachi's plugins](https://github.com/Kyuuhachi/VencordPlugins)
 -   HideServers ([by bepvte](https://github.com/bepvte/Vencord/tree/server-hider))
 -   Message Colors ([by henmalib](https://github.com/Vendicated/Vencord/pull/2521))
+-   Boo ([by Vei](https://github.com/ve-i/vc-Boo/))
 </details>
 
 ## Disclaimer

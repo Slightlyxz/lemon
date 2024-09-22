@@ -37,3 +37,6 @@
 [submodule "VoiceChatUtilities"]
 	path = src/userplugins/VoiceChatUtilities
 	url = https://github.com/D3SOX/vc-voiceChatUtilities
+[submodule "Boo"]
+	path = src/userplugins/vc-Boo
+	url = https://github.com/ve-i/vc-Boo
