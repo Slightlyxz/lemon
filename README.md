@@ -20,7 +20,7 @@ If you seek a proper third-party plugin experience, check out [Equicord](https:/
 -   BypassDND ([by Inbestigator](https://github.com/Vendicated/Vencord/pull/2239))
 -   iRememberYou ([by zoodogood](https://github.com/zoodogood/vencord-plugins))
 -   [jumpToFirst](https://github.com/Slightlyxz/lemon/tree/main/src/userplugins/jumpToFirst)
--   replaceActivityTypes ([by Nyako](https://github.com/nyakowint/replaceActivityTypes))
+-   rpc-editor ([by Nyako, nin0.dev](https://git.nin0.dev/userplugins/rpc-editor))
 -   vc-gif-collections ([by Syncxv](https://github.com/Syncxv/vc-gif-collections))
 -   vc-message-logger-enhanced ([by Syncxv](https://github.com/Syncxv/vc-message-logger-enhanced))
 -   [D3SOX's plugins](https://github.com/D3SOX/vencord-userplugins)
