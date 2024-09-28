@@ -108,9 +108,9 @@ export default definePlugin({
     authors: [Devs.Nyako, Devs.nin0dev],
     patches: [
         {
-            find: '="LocalActivityStore",',
+            find: '"LocalActivityStore"',
             replacement: {
-                match: /LOCAL_ACTIVITY_UPDATE:function\((\i)\)\{/,
+                match: /\i\((\i)\)\{.{0,50}activity.{0,10}=\i;/,
                 replace: "$&$self.patchActivity($1.activity);",
             }
         }
