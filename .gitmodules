@@ -40,3 +40,6 @@
 [submodule "Boo"]
 	path = src/userplugins/vc-Boo
 	url = https://github.com/ve-i/vc-Boo
+[submodule "IconViewer"]
+	path = src/userplugins/iconViewer
+	url = https://github.com/coldcord/iconViewer

@@ -28,6 +28,7 @@ If you seek a proper third-party plugin experience, check out [Equicord](https:/
 -   HideServers ([by bepvte](https://github.com/bepvte/Vencord/tree/server-hider))
 -   Message Colors ([by henmalib](https://github.com/Vendicated/Vencord/pull/2521))
 -   Boo ([by Vei](https://github.com/ve-i/vc-Boo/))
+-   IconViewer ([by iamme](https://github.com/coldcord/iconViewer))
 </details>
 
 ## Disclaimer
